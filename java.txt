@@ -1,0 +1,198 @@
+
+1.Input utput
+System.out.print(“Ten:”); In ra 
+System.out.println(name); In ra rồi xuống dòng
+
+public class HelloWorld {
+
+    public static void main(String[] args) {
+        String name;
+        float height;
+        int age;
+        name = “Chau Kter”;
+        height = 1.7f;
+        age = 21;
+        System.out.print(“Ten:”);
+        System.out.println(name);
+        System.out.print(“Chieu cao:”);
+        System.out.println(height);
+        System.out.print(“Tuoi:”);
+        System.out.println(age);
+    }
+
+}
+
+2.Kiểu dữ liệu
+Khác C++ ở chỗ boolean chứ không phải bool 
+Boolean isDone = false ,b trong boolean có thể viết hoa hoặc thường
+byte a = 100 (Lưu từ -128 ( -2^7) đến 127 (2^7-1) )
+String có chữ S phải viết hoa 
+int[] numbers = {1, 2, 3, 4, 5};
+String[] names = {"John", "Jane", "Bob"};
+
+3.Hăng
+Dùng từ khoá final
+final double PI = 3.1415926535897;
+
+4.Ép kiểu
+long a = 6;
+int b = (int) a;
+
+5.for each
+FOR-EACH chỉ được dùng để duyệt các phần tử trong mảng, không thể chỉnh sửa được.Và chỉ chạy xuôi mảng
+        int[] array = {1,2,4};
+
+        for (int a: array){
+            System.out.println(a);
+        }
+
+6.Phạm vi truy cập
+Có 4 loại phạm vi truy cập:
+Private : Private chỉ cho phép truy cập nội bổ của một class.
+(Default) :Ở mặc định, phạm vi truy cập chỉ nằm trong nội bộ package(Cùng file)
+Protected :Protected là phạm vi truy cập có thể từ trong và ngoài package, nhưng phải thông qua tính kế thừa. 
+ VD :public class HelloWorld extends Person{ } :DÙng extends
+Public :có thể truy cập bất cứ đâu trong project Java,khác package cần khai báo import
+
+7.từ khoá static
+biến tĩnh lưu thông tin chung cho tất cả các đối tượng những thông tin đó lưu ở một vùng nhớ duy nhất.
+ public float height;
+ public static String universityName = "Kteam Education";
+ public static int total = 0; 
+ Vd trên cho thấy trường học không cần tạo nhiều như height của mỗi sv đặc biệt mà chỉ cần tạo 1 lần cho các đối tượng, tiết kiệm bộ nhớ
+khối static Chạy trước cả main
+static {
+	System.out.println("HowKteam");
+	course = "Java core";
+}
+
+8.Trả về Instance(Đối tượng)
+public Person getInstance() {
+		return this;
+	}
+Có thể có hoặc không (ko quan trọng)
+System.out.println(a);==
+Person c = a.getInstance();
+System.out.println(c);
+
+9.Kế thừa (java không có đa kế thừa)
+Lệnh super() :Kế thừa hàm tạo nhưng viết ít hơn so c++,Lấy hàm lớp cha
+extends :Cho lớp con 
+public class Animal {
+    private String name;
+    public Animal(String name) {
+        this.name = name;
+    }
+
+}
+super TH1:Kế thừa hàm tạo
+public class Cat extends Animal {
+    private String breed;
+    public Cat(String name, String breed) {
+        super(name); // gọi constructor của lớp cha Animal với đối số name
+        this.breed = breed;
+    }
+}
+super TH2:Lấy hàm lớp cha
+Lớp cha:	public void getInfo() {
+		System.out.println("Name:"+this.name);
+		System.out.println("Age:"+this.age);
+		System.out.println("Height:"+this.height);
+	}
+Lớp con:        public void getInfo() {
+		super.getInfo();
+		System.out.println("University Name:"+this.universityName);
+	}
+
+10.Setter và Getter
+Setter và Getter là 2 phương thức sử dụng để cập nhật hoặc lấy ra giá trị thuộc tính, đặc biệt dành cho các thuộc tính ở phạm vi private
+Hãy cẩn thận với kiểu dữ liệu tham chiếu: Dùng .clone()
+ +  VD có mảng int[] A = {0,1,2} class B ,truyền mảng A vào trong hàm tạo B có this.mang =A;
+ bên main ta thay A[0]=1 thì mang của B cũng sẽ thành A = {1,1,2}; Để khắc phục ta dùng this.mang =A.clone(), set get cũng dùng clone()
++  Riêng với kiểu dữ liệu String, mặc dù là kiểu dữ liệu tham chiếu.
+ Tuy nhiên, String có cơ chế là khi thay đổi giá trị thì nó bàn chất nó đang tạo ra một đối tượng String mới 
+ Vì vậy, như các kiểu dữ liệu nguyên thủy, bạn có thể làm phương thức getter và setter bình thường.
++ Tự tạo phương thức clone() 
+public Person clone() {
+		Person other = new Person(this.name, this.age, this.height);
+		return other;
+	}
+
+11.ghi đè(overiding) , Overloading
+Overriding (ghi đè) có nghĩa là có 2 phương thức giống nhau về tên và tham số truyền vào. Một phương thức ở lớp cha, còn cái kia ở lớp con.
+Overloading là nhiều phương thức trong một lớp có chung tên nhưng khác tham số truyền vào .VD hàm tạo 0 tham số, có tham số
+Th2 :super chính là ghi đè
+Để chống ghi đè ta dùng từ khoá final:
+public final void getInfo() {
+		System.out.println("Name:"+this.name);
+		System.out.println("Age:"+this.age);
+		System.out.println("Height:"+this.height);
+}
+
+12.Tính trừu tượng (abstract)
+Lớp trừu tượng là lớp được khai báo mà không thể tạo ra đối tượng từ lớp đó. Ta sẽ tạo những lớp con kế thừa lớp trừu tượng.
+public abstract class Person {...}
+public abstract Object clone(); :Đây là 1 phương thức lớp person Bắt buộc lớp con overide lại, object là tên gọi chung cho các kiểu class, struct VD:person ,student gì đó
+
+13.interface(Thay đa kế thừa)
+Interface là một kiểu dữ liệu tham chiếu trong Java. Nó là tập hợp các phương thức abstract (trừu tượng).
+Khi một lớp kế thừa interface, thì nó sẽ kế thừa những phương thức abstract của interface đó.
+Một số đặc điểm của interface:
+-----
+Lớp con ko có interface mà lớp cha có thì lớp con cũng phải overide lại
+Không thể khởi tạo, nên không có phương thức khởi tạo.
+Tất cả các phương thức trong interface luôn ở dạng public abstract mà không cần khai báo.
+Các thuộc tính trong interface luôn ở dạng public static final mà không cần khai báo, yêu cầu phải có giá trị.
+Mục đích của interface là để thay thế đa kế thừa lớp của những ngôn ngữ khác (ví dụ như C++, Python…). 
+Ngoài ra, interface sẽ giúp đồng bộ và thống nhất trong việc phát triển hệ thống trao đổi thông tin.
+ Dùng implements với interface
+public class Student extends Person implements IStudy, ISpeak{}
+public abstract class Person implements ISpeak{} :Do person có abstract(ảo) nên có thể ko cần overide lại Ispeak
+
+14.Hiểu thêm về hàm main
+public: Ta phải để quyền truy cập ở dạng public để JRE ở bên ngoài có thể truy cập được phương thức để thực thi. 
+static: Khi JRE bắt đầu, chưa có đối tượng nào được khởi tạo. Vì vậy ta nên để phương thức ở dạng static để JVM có thể load class vào bộ nhớ và có thể gọi phương thức.
+void: phương thức main bắt buộc là void
+String[] args: Đây là những tham số mà người dùng truyền vào sau tên lớp. Mặc định những giá trị người dùng sẽ nằm trong một mảng kiểu String tên args. 
+
+15.Try-Catch
+Cú pháp
+try {
+
+    //Những khối lệnh có thể phát sinh lỗi
+
+} catch (Exception e) { //Exception =tên lỗi,hoặc để nguyên để bắt mọi lỗi 
+
+    //Chương trình thực hiện khi gặp lỗi trên,
+
+}
+VD :
+VD1 Bắt mọi lỗi: try {
+		for (String arg : args) {
+			S+= Integer.parseInt(arg);
+			System.out.println(arg);
+		}
+	} catch (Exception e) {
+		System.out.println("Error:"+e.toString());
+	}finally {
+		System.out.println("This is end");
+	}
+VD2 Bắt lỗi cụ thể : try {
+		int[] a = {5,6,7};
+		System.out.println(a[4]);
+	} catch (ArrayIndexOutOfBoundsException e) {
+		System.out.println("Index does not exist");
+	}finally {
+		System.out.println("This is end");
+	}
+Từ khóa finally có ý nghĩa sẽ chạy những dòng code sau khi kết thúc try catch bất kì có lỗi hay không.
+Từ khóa throw mục đích chính là để ném lỗi,
+ thường khi bạn viết các phương thức cho người khác người dùng và bắt người khác phải tự xử lý những trường hợp đó.
+ Bản chất các Exception là các class, nên khi ném lỗi có nghĩa là: 
+Bạn khởi tạo đối tượng Exception và throw cho người viết sau này phải catch lại
+
+static void inputValue(int value) {
+		if (value>100) {
+			throw new ArithmeticException("Value>100"); 
+		}
+	}
