@@ -23,14 +23,35 @@ public class HelloWorld {
 }
 
 2.Kiểu dữ liệu
+- Các kiểu dữ liệu nguyên thủy (Primitive Data Types) : 8 loại
 Khác C++ ở chỗ boolean chứ không phải bool 
 Boolean isDone = false ,b trong boolean có thể viết hoa hoặc thường
-byte a = 100 (Lưu từ -128 ( -2^7) đến 127 (2^7-1) )
+byte a = 100 (1 byte - 8bit ) từ -128 ( -2^7) đến 127 (2^7-1)  
+short a = 10000 (2 byte) ( từ -32,768 (-2^15) đến 32,767 (2^15-1))
+int a = 20000000 (4 byte) ( từ -2,147,483,648 (-2^31) đến 2,147,483,647 (2^31-1))
+long a = 1001000l (Thêm l đằng sau) (8 byte) ( từ -9,223,372,036,854,775,808 (-2^63) đến 9,223,372,036,854,775,807 (2^63-1))
+float a = 2.51f (Thêm f đằng sau) (4 byte) ( từ -3.4028235 x 10^38 đến -3.4028235 x 10^38)
+double a = 2.52.d hoặc double a = 2.52 (8 byte) (từ -1.7976931348623157 x 10^308 đến -1.7976931348623157 x 10^308)
+char (2 byte ) : 
+Khi ta khai báo char a = ‘Ă’ thì bộ nhớ sẽ lưu mã Unicode là ‘\u0102’
+
+- Các kiểu dữ liệu tham chiếu (Reference Types) :
 String có chữ S phải viết hoa 
 int[] numbers = {1, 2, 3, 4, 5};
 String[] names = {"John", "Jane", "Bob"};
 
+Toán tử instanceof : <Đối tượng hoặc biến> instanceof <class hoặc interface>
+	Là toán tử chỉ dùng cho các biến của kiểu dữ liệu tham chiếu. 
+	Mục đích để kiểm tra xem biến đó có đúng là kiểu dữ liệu mình dự đoán không, nếu đúng là true ngược lại trả về false. 
+VD: 	String name = “HowKteam”;
+        Boolean isString = name instanceof String;
+        System.out.println(isString);	// true
+
+Toán tử 3 ngôi : Biến = <điều kiện> ? <giá trị nếu đúng> : <giá trị nếu sai>
+VD: 	int c = a<b ? 3 : 4;
+
 3.Hăng
+final  <kiểu dữ liệu> <tên biến> = <giá trị hằng>;
 Dùng từ khoá final
 final double PI = 3.1415926535897;
 
@@ -38,19 +59,62 @@ final double PI = 3.1415926535897;
 long a = 6;
 int b = (int) a;
 
+char a = 'A';
+int b = a;
+char c = (char) b;
+
 5.for each
 FOR-EACH chỉ được dùng để duyệt các phần tử trong mảng, không thể chỉnh sửa được.Và chỉ chạy xuôi mảng
         int[] array = {1,2,4};
-
         for (int a: array){
             System.out.println(a);
         }
 
-6.Phạm vi truy cập
+5.1 mảng
+- Mảng 1 chiều :
+Khai báo : <kiểu dữ liệu> [] <tên mảng> = new <kiểu dữ liệu>[kích cỡ mảng];
+Khởi tạo : <kiểu dữ liệu> [] <tên mảng> = {các giá trị hàng 1} ;
+int[] a = new int[3];
+char[] a = {'H', 'o', 'w', 'K','t','e','a','m'};
+
+- Mảng 2 chiều : 
+Khai báo : <kiểu dữ liệu> [][] <tên mảng> = new <kiểu dữ liệu>[kích cỡ hàng] [kích cỡ cột];
+Khởi tạo : <kiểu dữ liệu> [][] <tên mảng> = {{các giá trị hàng 1}, {các giá trị hàng 2},… {các giá trị hàng n}}
+int[][] a= {{1,2,3},{4,5,6},{7,8,9}};
+
+5.2 class
+<Phạm vi truy cập> class <tên lớp> {
+
+    <Phạm vi truy cập> <các thành phần của lớp>;
+
+}
+VD:
+public class Person {
+	public String name;
+	public int age;
+	public float height;
+	
+	public void eat() {
+		System.out.print("Person is eating");
+	}
+}
+Phương thức :
+<Phạm vi truy cập> <từ khóa> <Kiểu dữ liệu trả về> <tên phương thức> ([Tham số]) {
+
+        <Chương trình>
+
+}
+
+6.Phạm vi truy cập, package
+- package như folder : 
++ Trong file package : package mypack;
++ Trong file được import :  import mypack.Person;
+
 Có 4 loại phạm vi truy cập:
 Private : Private chỉ cho phép truy cập nội bổ của một class.
-(Default) :Ở mặc định, phạm vi truy cập chỉ nằm trong nội bộ package(Cùng file)
+(Default) :Ở mặc định, phạm vi truy cập chỉ nằm trong nội bộ package(Cùng folder)
 Protected :Protected là phạm vi truy cập có thể từ trong và ngoài package, nhưng phải thông qua tính kế thừa. 
+
  VD :public class HelloWorld extends Person{ } :DÙng extends
 Public :có thể truy cập bất cứ đâu trong project Java,khác package cần khai báo import
 
@@ -65,6 +129,70 @@ static {
 	System.out.println("HowKteam");
 	course = "Java core";
 }
+- Phương thức static :
+VD: public static void getInfoUniversity() {
+		System.out.println("HowKteam. Free Educcation!");
+	}
+
+Lưu ý : phương thức static không thể tác động đến thuộc tính và phương thức liên quan đối tượng (non-static).
+public static void main(String[] args) {
+		System.out.println(name); // Lỗi 
+	}
+
+
+7.1 Từ khoá this
+public class Person {
+	public String name;
+	public int age;
+	public float height;
+	
+	public Person(String name, int age, float height) {
+		this.name = name;
+		this.age = age;
+		this.height = height;
+		this.getInfo();
+	}
+	
+	public void getInfo() {
+		System.out.println("Name:"+this.name);
+		System.out.println("Age:"+this.age);
+		System.out.println("Height:"+this.height);
+	}
+}
+
+- Khi dùng this() thì sẽ triệu hồi phương thức khởi tạo Constructor của lớp hiện tại. 
+public class Person {
+	public String name;
+	public int age;
+	public float height;
+	
+	public Person(String name) {
+		this.name = name;
+	}
+	
+	public Person(String name, int age) {
+		this(name);
+		this.age = age;
+	}
+	
+	public Person(String name, int age, float height) {
+		this(name, age);
+		this.height = height;
+	}
+	
+	public void getInfo() {
+		System.out.println("Name:"+this.name);
+		System.out.println("Age:"+this.age);
+		System.out.println("Height:"+this.height);
+	}
+}
+Do đó ta tạo dc nhiều kiểu khác nhau :
+public static void main(String[] args) {
+		Person a = new Person("Chau");
+		Person b = new Person("Chau", 21);
+		Person c = new Person("Chau", 21, 1.7f);
+	}
+
 
 8.Trả về Instance(Đối tượng)
 public Person getInstance() {
@@ -105,7 +233,9 @@ Lớp con:        public void getInfo() {
 	}
 
 10.Setter và Getter
+Khi đã dùng setter và getter thì thuộc tính nên để private
 Setter và Getter là 2 phương thức sử dụng để cập nhật hoặc lấy ra giá trị thuộc tính, đặc biệt dành cho các thuộc tính ở phạm vi private
+- Kiểu dữ liệu tham chiếu dùng clone (Ngoại trừ String) return this.array = array.clone();
 Hãy cẩn thận với kiểu dữ liệu tham chiếu: Dùng .clone()
  +  VD có mảng int[] A = {0,1,2} class B ,truyền mảng A vào trong hàm tạo B có this.mang =A;
  bên main ta thay A[0]=1 thì mang của B cũng sẽ thành A = {1,1,2}; Để khắc phục ta dùng this.mang =A.clone(), set get cũng dùng clone()
@@ -122,7 +252,7 @@ public Person clone() {
 Overriding (ghi đè) có nghĩa là có 2 phương thức giống nhau về tên và tham số truyền vào. Một phương thức ở lớp cha, còn cái kia ở lớp con.
 Overloading là nhiều phương thức trong một lớp có chung tên nhưng khác tham số truyền vào .VD hàm tạo 0 tham số, có tham số
 Th2 :super chính là ghi đè
-Để chống ghi đè ta dùng từ khoá final:
+Để chống ghi đè ở lớp con ta dùng từ khoá final:
 public final void getInfo() {
 		System.out.println("Name:"+this.name);
 		System.out.println("Age:"+this.age);
@@ -130,30 +260,37 @@ public final void getInfo() {
 }
 
 12.Tính trừu tượng (abstract)
-Lớp trừu tượng là lớp được khai báo mà không thể tạo ra đối tượng từ lớp đó. Ta sẽ tạo những lớp con kế thừa lớp trừu tượng.
+- Lớp trừu tượng là lớp được khai báo mà không thể tạo ra đối tượng từ lớp đó. Ta sẽ tạo những lớp con kế thừa lớp trừu tượng.
 public abstract class Person {...}
-public abstract Object clone(); :Đây là 1 phương thức lớp person Bắt buộc lớp con overide lại, object là tên gọi chung cho các kiểu class, struct VD:person ,student gì đó
+
+- Phương thức trừu tượng : Các phương thức trừu tượng là là chỉ định nghĩa mà không có chương trình bên trong, lớp con kế thừa phải bắt buộc override nó lại để sử dụng. 
+public abstract Object clone();Object thay cho person ,student gì đó bắt buộc phải overide lại
 
 13.interface(Thay đa kế thừa)
 Interface là một kiểu dữ liệu tham chiếu trong Java. Nó là tập hợp các phương thức abstract (trừu tượng).
 Khi một lớp kế thừa interface, thì nó sẽ kế thừa những phương thức abstract của interface đó.
-Một số đặc điểm của interface:
------
-Lớp con ko có interface mà lớp cha có thì lớp con cũng phải overide lại
-Không thể khởi tạo, nên không có phương thức khởi tạo.
-Tất cả các phương thức trong interface luôn ở dạng public abstract mà không cần khai báo.
-Các thuộc tính trong interface luôn ở dạng public static final mà không cần khai báo, yêu cầu phải có giá trị.
+- Một số đặc điểm của interface:
++ Lớp con ko có interface mà lớp cha có thì lớp con cũng phải overide lại
++ Không thể khởi tạo, nên không có phương thức khởi tạo.
++ Tất cả các phương thức trong interface luôn ở dạng public abstract mà không cần khai báo.
++ Các thuộc tính trong interface luôn ở dạng public static final mà không cần khai báo, yêu cầu phải có giá trị.
+VD:interface IStudy {
+	void study();
+}
+
 Mục đích của interface là để thay thế đa kế thừa lớp của những ngôn ngữ khác (ví dụ như C++, Python…). 
 Ngoài ra, interface sẽ giúp đồng bộ và thống nhất trong việc phát triển hệ thống trao đổi thông tin.
  Dùng implements với interface
 public class Student extends Person implements IStudy, ISpeak{}
 public abstract class Person implements ISpeak{} :Do person có abstract(ảo) nên có thể ko cần overide lại Ispeak
+Tuy nhiên lớp con của Person vẫn phải overide lại
 
 14.Hiểu thêm về hàm main
 public: Ta phải để quyền truy cập ở dạng public để JRE ở bên ngoài có thể truy cập được phương thức để thực thi. 
 static: Khi JRE bắt đầu, chưa có đối tượng nào được khởi tạo. Vì vậy ta nên để phương thức ở dạng static để JVM có thể load class vào bộ nhớ và có thể gọi phương thức.
 void: phương thức main bắt buộc là void
 String[] args: Đây là những tham số mà người dùng truyền vào sau tên lớp. Mặc định những giá trị người dùng sẽ nằm trong một mảng kiểu String tên args. 
+Như ta viết java Helloworld thì Java VM sẽ tìm phương thức main trong lớp HelloWorld để chạy chương trình. Nếu ta muốn viết main trong lớp khác cũng tương tự.
 
 15.Try-Catch
 Cú pháp
@@ -196,3 +333,21 @@ static void inputValue(int value) {
 			throw new ArithmeticException("Value>100"); 
 		}
 	}
+
+16. Bốn tính chất của hướng đối tượng trong Java
+- Tính đóng gói (Encapsulation) : 
+Tính đóng gói nhằm bảo vệ đối tượng không bị truy cập từ code bên ngoài vào để thay để giá trị các thuộc tính hay có thể truy cập trực tiếp. Việc cho phép truy cập các giá trị của đối tượng tùy theo sự đồng ý của người viết ra lớp của đối tượng đó. 
+Tính chất này đảm bảo sự bảo mật, toàn vẹn của đối tượng trong Java.
+
+- Tính trừu tượng (Abstraction) :
+Tính trừu tượng là một tiến trình chỉ nói ra tính năng của người dùng, các khái niệm được định nghĩa trong quá trình phát triển, bỏ qua những chi tiết triển khai bên trong. 
+Tính trừu tượng cho phép người lập trình tập trung cốt lõi cần thiết của đối tượng thay vì quan tâm sự phức tạo bên trong hoặc cách nó hoạt động.
+
+- Tính thừa kế (Inheritance) : 
+Tính kế thừa cho phép chúng ta cải tiến chương trình bằng cách kế thừa lại lớp cũ và phát triển những tính năng mới. 
+Lớp con sẽ kế thừa tất cả những thành phần của lớp cha, nhờ sự chia sẻ này mới có thể mở rộng những đặc tính sẵn có mà không cần phải định nghĩa lại.
+
+- Tính đa hình (Polymorphism) :
+Tính đa hình có thể nói luôn tồn tại song song với tính kế thừa. Khi có nhiều lớp con kế thừa lớp cha nhưng có những tính chất khác nhau cũng gọi là đa hình, hoặc những tác vụ trong cùng một đối tượng được thể hiện nhiều cách khác nhau cũng gọi là đa hình. 
+Tính đa hình là kết quả tất yếu khi ta phát triển khả năng kế thừa và nâng cấp chương trình.
+
