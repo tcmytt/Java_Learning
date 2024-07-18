@@ -1,0 +1,646 @@
+1. Giới thiệu về jdbc và cách kết nối với csdl
+- jdbc (java database connectivity) là một api được thiết kế dành cho ngôn ngữ lập trình java hỗ trợ java trong việc truy cập cơ sở dữ liệu
+Nó gồm những phương thức thực hiện truy vẫn và cập nhập csdl gián tiếp qua java
+- jdbc do java thiết kế còn jdbc driver là api được triển khai bởi nhà cung cấp csdl, không sử dụng tính năng đọc quyền thì thay đổi csdl khá đơn giản
+- jdbc driver có 4 loại :
++ Loại 1 lâu đời nhất chủ yếu kết nối tới MS Access , qua nhiều trình biên dịch nên hiệu suất kém
++ Loại 2 hiệu suất cải thiện so loại 1 , kết nối trực tiếp tới máy khách nên nếu không có thư viện ocijdbc11.dll thì Lỗi
++ Loại 3 khác với loại 1,2 do được viết bằng java, sử dụng cách tiếp cận 3 tầng tức là máy khách, máy chủ và cơ sở dữ liệu.
++ Loại 4 có 1 tệp jar do từng nhà cung cấp csdl tạo ra, chạy trên mọi máy khách, hiệu năng cao hầu như tất cả dự án đều dùng
+
+2. Cách kết nối csdl
+- Mysql ( Oracle Corp )
+jdbc:mySQL://<server>:<port>/<database>?<prop>
+VD : jdbc:mySQL://HYE6754:3306/chanda
+Driver Class : com.mySQL.jdbc.Driver
+
+- SQL Server (Nên dùng của Microsoft)
++ Microsoft :
+jdbc:SQLserver://<server>:<port>;Database=""
+VD : jdbc:SQLserver://HYE6754:1433;Database=chanda
+com.microsoft.SQLserver.jdbc.SQLServerDriver
++ SourceForge Inc :
+jdbc:jtds:<server_type>://<server>:<port>/<database>;<prop>
+VD : jdbc:jtds:sqlserver://HYE6754:1433/chanda
+net.sourceforge.jtds.jdbc.Driver
+
+- Cách kết nối :
+Tải về jdbc driver và thêm vào đường dẫn modul khi chạy chương trình, Lưu ý JDK8 đổ về trước cần đăng ký jdbc driver với DriverManager
+Tra gg cho jdbc mysql driver jar download
+
+3. Các bước tương tác với csdl
+Bc 1 : Tạo kết nối csdl
+// Đây là các câu lệnh trong class DataProvider
+// getConnection
+Connection con = null;
+//try 
+Class.forName("com.mysql.cj.jdbc.Driver"); 
+return con = DriverManager.getConnection("jdbc:mySQL://localhost:3306/thethao87", "root", "");
+
+Bc 2 : Tạo đối tượng statement
++ Có 3 loại statement : Statement, PreparedStatement, CallableStatement
+Vd :Statement stmt = conn.createStatement(); 
+
+Bc 3 : Thực thi statement
+boolean execute(String sql)     // Trả về thực hiện được không
+int executeUpdate(String sql)   // Trả về số dòng dữ liệu thay đổi
+ResultSet executeQuery(String sql) // Trả về bảng dữ liệu
+
+Bc 4 : Xử lí kết quả trả về
+Bc 5 : Ngắt kết nối 
+// closeConnection
+con.close();
+
+4. Mô hình DAO, Model, Controller
+- Tạo pakage Model Chứa các bảng thuộc tính trong database, có đầy đủ get,set, constructor, Lưu ý kiểu Date cần import java.sql.Date;
+- Tạo pacage DAO :
++ Cần tạo DAOInterface đầu tiên 
+public interface DAOInterface<T> {
+    public int insert(T t);
+    public int update(T t);
+    public int delete(T t);
+    public ArrayList<T> selectAll();
+    public T selectOne(T t);
+    public ArrayList<T> selectByCondition(String condition);
+}
++ Tiếp đó là các lớp vd như nhanvienDAO, khachhangDAO cần import lớp và triển khai interface
+import model.nhanvien;
+public class nhanvienDAO implements DAOInterface<nhanvien>{
+    //...
+}
+
+_ Lưu ý :
+Khi viết lệnh insert các chuỗi cần để trong '' nháy đơn, số thì không cần 
+ 
+5. Dùng PreparedStatement thay Statement
+String sql = "Select * from dondathang where MaDon = ?";
+PreparedStatement stmt = con.prepareStatement(sql);
+stmt.setInt(1, dondathang.getMaDon());
+ResultSet ketqua = stmt.executeQuery();
+
+Lưu ý : executeQuery, executeUpdate khi dùng PreparedStatement không cần truyền tham số String sql khác với Statement
+Hàm selectByCondition thì dùng Statement do prepareStatement không truyền dc String condition
+
+6. Ánh xạ kiểu dữ liệu giữa JDBC Type và Java Type
+Date |  java.sql.Date
+Bit  | boolean
+float  | double
+
+7. Giới thiệu về ORM và JPA
+Object-relational mapping (ORM) là kỹ thuật từ các class model biến đổi thành cơ sở dữ liệu trên database 
+Truy vấn dữ liệu dễ dàng hơn với HSQL (Giống trong c# gọi là LINQ)
+
+Java Persistence API (JPA) là chuẩn lưu dữ liệu trong java, cung cấp 1 cách để tương tác với cơ sở dữ liệu qua Java Persistence Query Language
+JPA là 1 phần của Java Enterprise (Java EE) và có thể dùng trong bất cứ ứng dụng java nào
+
+8. Hibernate 
+Hibernate là thư viện java dùng để thao tác với csdl qua việc ánh xạ đối tượng java vào các bảng, cài qua trang Hibernate hoặc dùng các trình quản lí như maven kéo dependencies về tự động
+Cài thêm plugin jBoss nếu dùng elcipse
+
+- Thêm 3 thư viện này :
+<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.31</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-core</artifactId>
+    <version>5.6.14.Final</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-entitymanager</artifactId>
+    <version>5.6.14.Final</version>
+</dependency>
+Chạy mvn install để cài thư viện
+
+- Tạo Entity 
+Các Anotation thường dùng 
+@Entity : khai báo là đối tượng này sẽ được ánh xạ xuống csdl 
+@Table : dùng khai báo thuộc tính cho một bảng
+@Inheritance : khai báo cho supper class lưu các đối tượng quan hệ kế thừa
+@Id : Khoá chính trong bảng
+@Column : Khai báo thuộc tính liên quan dùng cột trong bảng
+@Transient : Quy định HA không lưu thuộc tính này xuống csdl
+@JoinColumn : Dùng khai báo một thuộc tính là khoá ngoại 
+@OneToMany : Dùng khai báo quan hệ one to many
+@ManyToOne : Dùng khai báo quan hệ many to one
+@ManyToMany : Dùng khai báo quan hệ many to many
+
+- Tạo session:
++ Cần tạo file hibernate.cfg.xml đưa vào thẻ factorySession
++ Tạo 1 lớp hibernateUtil :
+private static final SessionFactory sessionFactory = buildSessionFactory();
+private static SessionFactory buildSessionFactory() {
+    try {
+        return new Configuration().configure().buildSessionFactory();
+    } catch (Exception e) {
+        System.out.println("Loi khong the tao SessionFactory");
+        return null;
+    }
+}
+public static SessionFactory getSessionFactory() {
+    return sessionFactory;
+}
+public static void shutdown() {
+    getSessionFactory().close();
+}
+
+8. HQL trong Hibernate và cách truy vấn
+Các từ khoá : select , From, Where, Group By, Having, Order By
++ Having là điều kiện của GroupBy
+
+Các phương thức
+- Select all :
+SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+if(sessionFactory!=null) {
+    Session session = sessionFactory.openSession();
+    Transaction tr = session.beginTransaction();
+    String hql = "from Cat";
+    Query query = session.createQuery(hql);
+    list = query.getResultList();
+    tr.commit();
+    session.close();
+}
+
+- selectById :
+    Session session = sessionFactory.openSession();
+    Transaction tr = session.beginTransaction();
+    // Thuc thi cau lenh HQL
+    String hql = "from Cat c where c.id=:id";
+    Query query = session.createQuery(hql);
+    query.setParameter("id", t.getId());
+    list = query.getResultList();
+    tr.commit();
+    session.close();
+
+- SaveOrUpdate :
+    Session session = sessionFactory.openSession();
+    Transaction tr = session.beginTransaction();
+    // Thuc thi cau lenh HQL
+
+    // Chi luu khi chua ton tai
+    // session.save(t);
+
+    // Them moi khi chua ton tai, cap nhat du lieu khi da ton tai
+    session.saveOrUpdate(t);
+
+    tr.commit();
+    session.close();
+
+- Delete :
+    Session session = sessionFactory.openSession();
+    Transaction tr = session.beginTransaction();
+    session.delete(t);
+    tr.commit();
+    session.close();
+
+9. Phân biệt các trạng thái của đối tượng trong Hibernate
+- Trạng thái : Transient (Tạm thời) , Persistent (Lưu trữ) ,  Detached (Tách rời)
++ Transient (Tạm thời)
+Một đối tượng entity ở trạng thái Transient (Tạm thời) là một đối tượng Java thông thường chưa được quản lý bởi Hibernate. 
+Nó chưa được lưu trữ trong cơ sở dữ liệu. Tạo bởi toán tử new 
+Các thay đổi đối với đối tượng Transient không được theo dõi bởi Hibernate và không được đồng bộ với cơ sở dữ liệu.
+Employee employee = new Employee();
+employee.setName("John Doe");
+// employee is in Transient state
+
++ Persistent (Lưu trữ)
+Một đối tượng entity ở trạng thái Persistent đang được quản lý bởi Hibernate và được ánh xạ với một bản ghi trong cơ sở dữ liệu.
+Bất kỳ thay đổi nào được thực hiện đối với một đối tượng Persistent được theo dõi bởi Hibernate và sẽ được đồng bộ với cơ sở dữ liệu khi transaction được commit.
+Một đối tượng entity trở thành Persistent khi bạn lưu nó vào persistence context bằng các phương thức như save, persist, hoặc merge.
+Session session = sessionFactory.openSession();
+session.save(employee); // employee becomes Persistent
+// Changes to employee will be tracked by Hibernate
+employee.setSalary(60000);
+session.commit(); // Changes will be flushed to database
+
++  Detached (Tách rời)
+Một đối tượng entity ở trạng thái Detached đã từng được quản lý bởi Hibernate nhưng không còn được theo dõi bởi persistence context nữa.
+Nó vẫn đại diện cho một bản ghi trong cơ sở dữ liệu, nhưng Hibernate không biết về bất kỳ thay đổi nào được thực hiện đối với đối tượng sau khi nó tách rời.
+Một đối tượng entity trở thành Detached khi session (ngữ cảnh lưu trữ) bị đóng lại (session.close()).
+Session session = sessionFactory.openSession();
+Employee employee = (Employee) session.get(Employee.class, 1); // employee becomes Persistent
+// Modify employee
+employee.setName("Jane Doe");
+session.close(); // employee becomes Detached
+// Changes to employee won't be tracked by Hibernate anymore
+employee.setSalary(70000);
+
+- Phương thức : save, persis, saveOrUpdate, update, merge, get, load, find, remove, delete | Đối tượng là 1 hàng dữ liệu trong 1 bảng
++ session.commit() : Lưu tất cả các thay đổi được thực hiện đối với các đối tượng persistent trong session vào cơ sở dữ liệu.
++ session.close() : Loại bỏ bất kỳ thay đổi nào chưa được cam kết được thực hiện đối với các đối tượng persistent.
++ Cần gọi session.commit() trước session.close() do session.commit() không được thực hiện tự động 
++ Nếu xảy ra lỗi trong quá trình giao dịch, bạn có thể sử dụng session.rollback()
++ Tại sao cần Transaction tr = session.beginTransaction(); và tr.commit(); 
+Đảm bảo tính nhất quán thực hiện tất cả các bước hoặc không bước nào được thực hiện cả
+Khi hai người dùng cùng truy cập vào một bản ghi dữ liệu để chỉnh sửa, transaction sẽ đảm bảo rằng chỉ có một người dùng có thể thực hiện thay đổi tại một thời điểm.
++ tr.commit() và session.commit() là tương đương về mặt chức năng đều áp dụng thay đổi Persistent vào csdl 
+Tuy nhiên viết Transaction tr = session.beginTransaction() rồi tr.commit() thì dễ rollback hơn, còn session.commit() thì vẫn sử dụng Transaction ẩn 
++ session.persis giống save nhưng không trả về lỗi, cũng không trả về id lệnh dc tạo
++ delete sẽ xoá luôn ở cơ sở dữ liệu thời điểm được gọi,còn remove không xoá ngay mà chỉ ghi là đã xoá ở Persistent muốn xoá ngay gọi thêm session.flush();
++ evict() dùng để loại bỏ một đối tượng persistent và tất cả dữ liệu của nó khỏi persistence context. Dùng để tải lại trạng thái đối tượng từ csdl hoặc 
++ session.detach() Thay đổi trạng thái của một đối tượng persistent thành Detached, đối tượng không còn được quản lý bởi Hibernate nhưng vẫn giữ nguyên dữ liệu.
++ session.clear() xóa tất cả các đối tượng persistent khỏi persistence context của session hiện tại.Đặt trạng thái của tất cả các đối tượng thành Detached.
++ session.merge() Nó sao chép trạng thái (giá trị thuộc tính) từ đối tượng detached sang đối tượng persistent trả về đối tượng đã hợp nhất, đây giờ là một đối tượng persistent được quản lý hoàn toàn và được liên kết với session hiện tại.
++ session.refresh(object) là phương thức được sử dụng để tải lại trạng thái của một đối tượng persistent từ cơ sở dữ liệu và đồng bộ hóa nó với session hiện tại.
+Dùng khi Bạn nghi ngờ rằng trạng thái của đối tượng persistent trong session không khớp với trạng thái thực tế của nó trong cơ sở dữ liệu.
+Bất kỳ thay đổi nào bạn đã thực hiện đối với đối tượng persistent trong session trước khi gọi refresh() sẽ bị loại bỏ.
+session.refresh() giúp đồng bộ hóa trạng thái của đối tượng persistent trong session với dữ liệu thực tế trong cơ sở dữ liệu.
+session.refresh(cat1) là tự động lấy từ csdl về cat1 không trả về 
++ session.get(Class clazz, Serializable id) là phương thức được sử dụng để truy xuất một đối tượng persistent từ cơ sở dữ liệu dựa trên class của đối tượng và id (khóa chính) của nó.
+Bc đầu tìm trong bộ nhớ đệm Persistence context nếu thấy trả về không tìm lên csdl nữa , không thấy tìm lên csdl rồi trả về tiện thể thêm luôn dữ liệu vào Persistence context
+// Tìm kiếm nhân viên với id = 1
+Employee employee = (Employee) session.get(Employee.class, 1);
++ session.load(Class clazz, Serializable id) chức năng giống session.get Khác với session.get(), session.load() không truy vấn cơ sở dữ liệu ngay lập tức thay vào đó, nó sẽ trả về một proxy (đại diện) cho đối tượng persistent.
+Proxy là một đối tượng nhẹ nhàng, chứa id của đối tượng thực. Chỉ khi bạn truy cập vào một thuộc tính của đối tượng được trả về (proxy), Hibernate mới thực hiện truy vấn SELECT đến cơ sở dữ liệu để lấy dữ liệu thực tế của đối tượng.
++ session.find(String query) là phương thức được sử dụng để thực hiện truy vấn HQL (Hibernate Query Language) và trả về danh sách các đối tượng persistent thỏa mãn điều kiện của truy vấn.
+Lưu ý String query viết bằng HQL
+
+- Khác nhau giữa evict() và detach()
+Session session = sessionFactory.openSession();
+// Tìm kiếm một đối tượng persistent
+Employee employee = (Employee) session.get(Employee.class, 1);
+// Thay đổi tên của nhân viên
+employee.setName("Jane Doe");
+// Evict đối tượng khỏi persistence context
+session.evict(employee);
+// Thay đổi lương của nhân viên (sẽ không được đồng bộ hóa với cơ sở dữ liệu)
+employee.setSalary(70000);
+// Lưu đối tượng vào persistence context (sẽ ném ra ngoại lệ)
+session.save(employee);
+session.commit();
+session.close();
+
+Session session = sessionFactory.openSession();
+// Tìm kiếm một đối tượng persistent
+Employee employee = (Employee) session.get(Employee.class, 1);
+// Thay đổi tên của nhân viên
+employee.setName("Jane Doe");
+// Detach đối tượng khỏi persistence context
+session.detach(employee);
+// Thay đổi lương của nhân viên (sẽ không được đồng bộ hóa với cơ sở dữ liệu)
+employee.setSalary(70000);
+// Lưu đối tượng vào persistence context (sẽ ném ra ngoại lệ)
+session.save(employee);
+session.commit();
+session.close();
+
+Tuy nhiên, bạn có thể attach lại đối tượng detach() vào persistence context để đồng bộ hóa thay đổi:
+// Attach đối tượng detach() vào persistence context
+session.merge(employee);
+// Lưu đối tượng để đồng bộ hóa thay đổi
+session.save(employee);
+
+Không thể gán lại dữ liệu khi evict vì tất cả thông tin về trạng thái của đối tượng trong persistence context đã bị xóa khi evict còn detach vẫn giữ
+
+- Ví dụ khi session.clear()
+Session session = sessionFactory.openSession();
+// Tìm kiếm một số đối tượng persistent
+Employee employee1 = (Employee) session.get(Employee.class, 1);
+Employee employee2 = (Employee) session.get(Employee.class, 2);
+// Thay đổi tên của các nhân viên
+employee1.setName("Alice");
+employee2.setName("Bob");
+// Clear the persistence context
+session.clear();
+// Thay đổi lương của các nhân viên (sẽ không được theo dõi bởi Hibernate)
+employee1.setSalary(50000);
+employee2.setSalary(60000);
+// Lưu các đối tượng vào persistence context (sẽ ném ra ngoại lệ)
+session.save(employee1);
+session.save(employee2);
+session.commit();
+session.close();
+
+- Ví dụ session.merge() 
+Session session = sessionFactory.openSession();
+Transaction tx = session.beginTransaction();
+// Tạo một đối tượng detached (đã tải từ database trước đó)
+Employee detachedEmployee = new Employee(1, "John", "Doe", 50000);
+detachedEmployee.setSalary(60000); // Đối tượng detached với lương cập nhật
+// Hợp nhất đối tượng detached để cập nhật database
+Employee mergedEmployee = (Employee) session.merge(detachedEmployee);
+tx.commit();
+session.close();
+
+- Khác nhau giữa load và get 
+Sử dụng session.load() khi bạn chắc chắn đối tượng tồn tại trong cơ sở dữ liệu và bạn chỉ cần một số thuộc tính của nó.
+Sử dụng session.get() khi bạn cần đảm bảo tính sẵn có của đối tượng trước khi sử dụng và muốn truy cập tất cả các thuộc tính.
+session.get() an toàn hơn nhưng có thể chậm hơn, session.load() hiệu quả hơn nhưng tiềm ẩn ngoại lệ nếu object không tồn tại.
+
+10. Mối quan hệ One-to-One trong Hibernate
+- Khác nhau giữa @Column và @JoinColumn :
++ @Column liên quan đến ánh xạ thuộc tính sang cột, trong khi @JoinColumn liên quan đến mối quan hệ giữa các entity.
++ @Column sử dụng trên thuộc tính, @JoinColumn sử dụng trên thuộc tính @OneToOne hoặc @ManyToOne.
+
+VD : 
+Giả sử bạn có hai entity: Department và Manager. Mỗi phòng ban có một quản lý duy nhất và mỗi quản lý chỉ thuộc về một phòng ban duy nhất.
+@Entity
+public class Department {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @OneToOne
+    @JoinColumn(name = "manager_id")
+    private Manager manager;
+}
+
+@Entity
+public class Manager {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToOne
+    @JsonIgnore // Tránh vòng lặp vô hạn
+    private Department department;
+}
+
+- Giả sử có 1 vợ 1 chồng trong bảng người
+@Entity
+@Table(name="tbl_PERSON")
+public class Person {
+    @Id
+    @GeneratedValue
+    @Column(name="person_id")
+    private long id;
+
+    private String name;
+
+    private Date dateOfBirth;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="spouse_id")
+    private Person spouse;
+}
+
+11. Mối quan hệ Many-to-One trong Hibernate
+- 1 Tác giả có nhiều quyển sách 
+@Entity
+public class Author {
+    @Id
+    private String author_id;
+    private String name;
+    private Date dateOfBirth;
+}
+
+@Entity
+public class Book {
+    @Id
+    private String book_id;
+    private String title;
+    private double price;
+
+    @ManyToOne
+    @JoinColumn(name="author_id")
+    private Author author;
+}
+
+// Hàm main lưu các sách theo tác giả 
+Author author_1 = new Author("001", "Nguyen Nhat Anh", new Date(System.currentTimeMillis()));
+Book b1 = new Book("B01", "Cho tôi xin một vé đi tuổi thơ", 50000, author_1);
+Book b2 = new Book("B02", "Tôi thấy hoa vàng trên cỏ xanh", 75000, author_1);
+Book b3 = new Book("B03", "Tôi là Bêtô", 60000, author_1);
+
+- Giả sử bạn có hai entity: Department và Employee. Mỗi phòng ban có nhiều nhân viên và mỗi nhân viên chỉ thuộc về một phòng ban duy nhất.
+@Entity
+public class Department {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "department") // mappedBy chỉ ra thuộc tính "department" trong Employee
+    private List<Employee> employees = new ArrayList<>();
+
+    // ...
+}
+
+@Entity
+public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    // ...
+}
+
+- Giả sử bạn có hai entity: University và Student. Mỗi trường đại học có nhiều sinh viên và mỗi sinh viên chỉ học tại một trường đại học duy nhất.
+@Entity
+public class University {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Student> students = new HashSet<>();
+
+    // ...
+}
+
+@Entity
+public class Student {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "university_id")
+    private University university;
+
+    // ...
+}
+
+12. Quan hệ One to Many 
+- 1 khách hàng mua được nhiều đơn hàng
+- Khác biệt giữa Many to One và One to Many :
++ Trong Many to One ta khai báo 1 thằng One trong thằng Many, 
++ Trong One to Many ta khai báo 1 thằng ArrayList Many trong One 
+
+@Entity
+public class Customer {
+    @Id
+    private String id;
+    private String name;
+    private String email;
+
+    @OneToMany(mappedBy = "customer")   //OneToMany Dựa vào customer, phải có khách hàng mới có đơn hàng, lấy khách hàng làm gốc
+    private List<My_Order> orders;
+}
+
+@Entity
+public class My_Order {
+    @Id
+    private String order_id;
+    private String address;
+
+    @ManyToOne()
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+}
+
+13. Quan hệ Many to Many 
+- 1 cuộc họp có nhiều nhân viên, 1 nhân viên có nhiều cuộc họp, quan hệ n-n cần đổi thành 1-n, n-1, hoặc 1-1 để dữ liệu không lỗi
+- @JoinTable tạo bảng trung gian 
+@Entity
+public class NhanVien {
+    @Id
+    private String id;
+    private String hoVaTen;
+    private Date ngaySinh;
+    @ManyToMany(mappedBy = "danhSachNhanVien")
+    private Set<CuocHop> danhSachCuocHop = new HashSet<CuocHop>();
+}
+
+@Entity
+public class CuocHop {
+    @Id
+    @GeneratedValue
+    private int id;
+    private String tenCuocHop;
+    private String diaDiem;
+    private Date thoiGian;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="cuochop_nhanvien",
+            joinColumns = {@JoinColumn(name="cuochop_id")},
+            inverseJoinColumns = {@JoinColumn(name="nhanvien_id")}
+    )
+    private Set<NhanVien> danhSachNhanVien = new HashSet<NhanVien>();
+
+    public void addNhanVien(NhanVien nv) {
+        this.danhSachNhanVien.add(nv);
+    }
+}
+
+
+14. Thuộc tính mappedBy trong @OneToMany hoặc @ManyToMany 
+Thuộc tính mappedBy được sử dụng để xác định thuộc tính trong entity "con" tham chiếu đến entity "mẹ".
+@Entity
+public class Department {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees = new ArrayList<>();
+
+    // ...
+}
+
+@Entity
+public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    // ...
+}
+
+@OneToMany(mappedBy = "department") trên employees của Department cho biết thuộc tính department trong Employee là thuộc tính sở hữu.
+@ManyToOne trên department của Employee cho biết Employee thuộc về Department.
+Nếu bạn muốn tự động tạo các thuộc tính tham chiếu cho cả hai entity, bạn có thể sử dụng annotation @OneToOne hoặc @ManyToMany thay vì mappedBy.
+
+15. Quan hệ Kế thừa trong Hibernate
+- Lớp cha phải khai báo @Inheritance , viết dưới @Entity
++ @Inheritance(stratery = InheritanceType.SINGLE_TABLE)
+map tất cả dữ liệu các lớp con xuống 1 table lớp cha tổng hợp lại
+
++ @Inheritance(stratery = InheritanceType.TABLE_PER_CLASS)
+đưa thẳng dữ liệu lớp cha về lớp con, có bao nhiêu lớp con có bấy nhiêu table , lớp cha ko có dữ liệu
+
++ @Inheritance(stratery = InheritanceType.JOINED)
+map riêng lớp cha và các lớp con, khi đó trong table lớp con chứa khoá lớp cha 
+
+
+16. Phân biệt các loại Cascade trong Hibernate
+- Cascade trong Hibernate cho phép tự động truyền thao tác persistence(lưu, cập nhật, xóa) từ một entity(đối tượng persistent) sang các entity liên kết khác.
+cascade = CascadeType.ALL Đơn giản mà nói là chỉnh session.save(dh1) thì tất cả thằng con liên hệ với dh đều được cập nhập theo, xoá thì xoá tất cả thằng cùng liên hệ
+
+CascadeType.ALL: Truyền tất cả các thao tác persistence (PERSIST, MERGE, REMOVE, DETACH, REFRESH) sang các entity liên kết.
+CascadeType.PERSIST: Truyền thao tác lưu (PERSIST) sang các entity liên kết.
+CascadeType.MERGE: Truyền thao tác cập nhật (MERGE) sang các entity liên kết.
+CascadeType.REMOVE: Truyền thao tác xóa (REMOVE) sang các entity liên kết.
+CascadeType.DETACH: Truyền thao tác tách (DETACH) sang các entity liên kết.
+CascadeType.REFRESH: Truyền thao tác làm mới (REFRESH) sang các entity liên kết.
+
+@Entity
+public class DonHang {
+    @Id
+    @GeneratedValue
+    private int id;
+    private String tenKhachHang;
+    private Date ngayMua;
+
+    @OneToMany(mappedBy = "donHang", cascade = CascadeType.ALL)
+//	@OneToMany(mappedBy = "donHang", cascade = CascadeType.MERGE)
+//	@OneToMany(mappedBy = "donHang", cascade = CascadeType.PERSIST)
+//	@OneToMany(mappedBy = "donHang", cascade = CascadeType.REMOVE)
+    private List<ChiTietDonHang> danhSachChiTiet = new ArrayList<ChiTietDonHang>();
+}
+
+@Entity
+public class ChiTietDonHang {
+    @Id
+    @GeneratedValue
+    private int id;
+    private String tenSanPham;
+    private double soLuong;
+    private double giaBan;
+    private double thanhTien;
+
+    @ManyToOne
+    @JoinColumn(name="donhang_id")
+    private DonHang donHang;
+}
+
+Khi thằng One thay đổi thì thằng Many thay đổi theo
+Chủ yếu dùng cascade = CascadeType.ALL 
+
+17. Phân biệt LAZY và EAGER loading trong Hibernate
+- EAGER (Năng động) load hết dữ liệu liên quan lên bộ nhớ ram, khi đó dùng thao tác với dữ liệu sẽ nhanh hơn tuy nhiên sẽ tốn thời gian load lâu
+- LAZY (Lười biếng) load dữ liệu đủ dùng, khi cần truy xuất mới load tiếp, giảm thời gian load dữ liệu lên đáng kể
+fetch = FetchType.EAGER;
+fetch = FetchType.LAZY;
+
+@OneToMany(mappedBy = "donHang", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+@ManyToOne(fetch = FetchType.LAZY)
+
+Nên dùng fetch = FetchType.LAZY xài tới đâu load tới đấy
+
+- BATCH loading : Giống như EAGER loading nhưng nó tải một nhóm entity cùng một lúc thay vì tải từng entity riêng lẻ.

@@ -1,0 +1,801 @@
+
+1.Input utput
+System.out.print(“Ten:”); In ra 
+System.out.println(name); In ra rồi xuống dòng
+
+public class HelloWorld {
+
+    public static void main(String[] args) {
+        String name;
+        float height;
+        int age;
+        name = “Chau Kter”;
+        height = 1.7f;
+        age = 21;
+        System.out.print(“Ten:”);
+        System.out.println(name);
+        System.out.print(“Chieu cao:”);
+        System.out.println(height);
+        System.out.print(“Tuoi:”);
+        System.out.println(age);
+    }
+
+}
+
+2.Kiểu dữ liệu
+- Các kiểu dữ liệu nguyên thủy (Primitive Data Types) : 8 loại
+Khác C++ ở chỗ boolean chứ không phải bool 
+Boolean isDone = false ,b trong boolean có thể viết hoa hoặc thường
+byte a = 100 (1 byte - 8bit ) từ -128 ( -2^7) đến 127 (2^7-1)  
+short a = 10000 (2 byte) ( từ -32,768 (-2^15) đến 32,767 (2^15-1))
+int a = 20000000 (4 byte) ( từ -2,147,483,648 (-2^31) đến 2,147,483,647 (2^31-1))
+long a = 1001000l (Thêm l đằng sau) (8 byte) ( từ -9,223,372,036,854,775,808 (-2^63) đến 9,223,372,036,854,775,807 (2^63-1))
+float a = 2.51f (Thêm f đằng sau) (4 byte) ( từ -3.4028235 x 10^38 đến -3.4028235 x 10^38)
+double a = 2.52.d hoặc double a = 2.52 (8 byte) (từ -1.7976931348623157 x 10^308 đến -1.7976931348623157 x 10^308)
+char (2 byte ) : 
+Khi ta khai báo char a = ‘Ă’ thì bộ nhớ sẽ lưu mã Unicode là ‘\u0102’
+
+- Các kiểu dữ liệu tham chiếu (Reference Types) :
+String có chữ S phải viết hoa 
+int[] numbers = {1, 2, 3, 4, 5};
+String[] names = {"John", "Jane", "Bob"};
+
+Toán tử instanceof : <Đối tượng hoặc biến> instanceof <class hoặc interface>
+	Là toán tử chỉ dùng cho các biến của kiểu dữ liệu tham chiếu. 
+	Mục đích để kiểm tra xem biến đó có đúng là kiểu dữ liệu mình dự đoán không, nếu đúng là true ngược lại trả về false. 
+VD: 	String name = “HowKteam”;
+        Boolean isString = name instanceof String;
+        System.out.println(isString);	// true
+
+Toán tử 3 ngôi : Biến = <điều kiện> ? <giá trị nếu đúng> : <giá trị nếu sai>
+VD: 	int c = a<b ? 3 : 4;
+
+3.Hăng
+final  <kiểu dữ liệu> <tên biến> = <giá trị hằng>;
+Dùng từ khoá final
+final double PI = 3.1415926535897;
+
+4.Ép kiểu
+long a = 6;
+int b = (int) a;
+
+char a = 'A';
+int b = a;
+char c = (char) b;
+
+5.for each
+FOR-EACH chỉ được dùng để duyệt các phần tử trong mảng, không thể chỉnh sửa được.Và chỉ chạy xuôi mảng
+        int[] array = {1,2,4};
+        for (int a: array){
+            System.out.println(a);
+        }
+
+5.1 mảng
+- Mảng 1 chiều :
+Khai báo : <kiểu dữ liệu> [] <tên mảng> = new <kiểu dữ liệu>[kích cỡ mảng];
+Khởi tạo : <kiểu dữ liệu> [] <tên mảng> = {các giá trị hàng 1} ;
+int[] a = new int[3];
+char[] a = {'H', 'o', 'w', 'K','t','e','a','m'};
+int[] arr;
+arr = new int[5];
+
+- Mảng 2 chiều : 
+Khai báo : <kiểu dữ liệu> [][] <tên mảng> = new <kiểu dữ liệu>[kích cỡ hàng] [kích cỡ cột];
+Khởi tạo : <kiểu dữ liệu> [][] <tên mảng> = {{các giá trị hàng 1}, {các giá trị hàng 2},… {các giá trị hàng n}}
+int[][] a= {{1,2,3},{4,5,6},{7,8,9}};
+
+- Duyệt qua các phần tử mảng :
+int [] myArr = {6, 42, 3, 7};
+int sum=0;
+for (int ele: myArr)
+	sum += ele;
+System.out.println(sum);
+
+- Phương thức tĩnh từ Arrays : import java.util.Arrays;
+Java có lớp java.util.Arrays trong đó có một số phương thức tĩnh làm việc với mảng như :
++ binarySearch(Object[] a, Object key) 
+Lưu ý mảng cần được sắp xếp trước khi tìm kiếm. Nó trả về chỉ số phần tử tìm được, nếu khác trả về giá trị nhở hơn 0 
+
++ equals(long[] a, long[] a2)
+Trả về true nếu giá trị các phần tử tương ứng của hai mảng giống nhau.
+
++ fill(int[] a, int val)
+Tất cả các phần tử của mảng được gán bởi một giá trị cung cấp
+
++ sort(Object[] a)
+public static void sort(Object[] a)	
+
+
+5.2 class
+<Phạm vi truy cập> class <tên lớp> {
+
+    <Phạm vi truy cập> <các thành phần của lớp>;
+
+}
+VD:
+public class Person {
+	public String name;
+	public int age;
+	public float height;
+	
+	public void eat() {
+		System.out.print("Person is eating");
+	}
+}
+Phương thức :
+<Phạm vi truy cập> <từ khóa> <Kiểu dữ liệu trả về> <tên phương thức> ([Tham số]) {
+
+        <Chương trình>
+
+}
+
+6.Phạm vi truy cập, package
+- package như folder : 
++ Trong file package : package mypack;
++ Trong file được import :  import mypack.Person;
+
+Có 4 loại phạm vi truy cập:
+Private : Private chỉ cho phép truy cập nội bổ của một class.
+(Default) :Ở mặc định, phạm vi truy cập chỉ nằm trong nội bộ package(Cùng folder)
+Protected :Protected là phạm vi truy cập có thể từ trong và ngoài package, nhưng phải thông qua tính kế thừa. 
+
+VD :public class HelloWorld extends Person{ } :DÙng extends
+Public :có thể truy cập bất cứ đâu trong project Java,khác package cần khai báo import
+
+- Package trong Java :
++ Các package trong Java khá giống với khái niệm namespace trong PHP, Java sử dụng package để tránh sự xung đột trong điều khiển truy cập các lớp.
++ Các lớp định nghĩa trong package, ví dụ package có lớp sample thì phần đầu file đó phải có
+package samples;
++ Để sử dụng các lớp thuộc package nào đó, bạn cần phải sử dụng từ khóa import để nạp package đó sử dụng.
+import samples.Vehicle;
+
+7.từ khoá static , final
+biến tĩnh lưu thông tin chung cho tất cả các đối tượng những thông tin đó lưu ở một vùng nhớ duy nhất.
+ public float height;
+ public static String universityName = "Kteam Education";
+ public static int total = 0; 
+ Vd trên cho thấy trường học không cần tạo nhiều như height của mỗi sv đặc biệt mà chỉ cần tạo 1 lần cho các đối tượng, tiết kiệm bộ nhớ
+khối static Chạy trước cả main
+static {
+	System.out.println("HowKteam");
+	course = "Java core";
+}
+- Phương thức static :
+VD: public static void getInfoUniversity() {
+		System.out.println("HowKteam. Free Educcation!");
+	}
+
+Lưu ý : phương thức static không thể tác động đến thuộc tính và phương thức liên quan đối tượng (non-static).
+public static void main(String[] args) {
+		System.out.println(name); // Lỗi 
+	}
+- Từ khoá final 
+Từ khóa final được dùng để tạo hằng số, có nghĩa là nó được gán một lần duy nhất.
+public static final double PI = 3.14;
+Một phương thức, một lớp cũng có thể khai báo với final, nó cho biết không thể nạp chồng bởi các lớp kế thừa. 
+
+7.1 Từ khoá this
+public class Person {
+	public String name;
+	public int age;
+	public float height;
+	
+	public Person(String name, int age, float height) {
+		this.name = name;
+		this.age = age;
+		this.height = height;
+		this.getInfo();
+	}
+	
+	public void getInfo() {
+		System.out.println("Name:"+this.name);
+		System.out.println("Age:"+this.age);
+		System.out.println("Height:"+this.height);
+	}
+}
+
+- Khi dùng this() thì sẽ triệu hồi phương thức khởi tạo Constructor của lớp hiện tại. 
+public class Person {
+	public String name;
+	public int age;
+	public float height;
+	
+	public Person(String name) {
+		this.name = name;
+	}
+	
+	public Person(String name, int age) {
+		this(name);
+		this.age = age;
+	}
+	
+	public Person(String name, int age, float height) {
+		this(name, age);
+		this.height = height;
+	}
+	
+	public void getInfo() {
+		System.out.println("Name:"+this.name);
+		System.out.println("Age:"+this.age);
+		System.out.println("Height:"+this.height);
+	}
+}
+Do đó ta tạo dc nhiều kiểu khác nhau :
+public static void main(String[] args) {
+		Person a = new Person("Chau");
+		Person b = new Person("Chau", 21);
+		Person c = new Person("Chau", 21, 1.7f);
+	}
+
+
+8.Trả về Instance(Đối tượng)
+public Person getInstance() {
+		return this;
+	}
+Có thể có hoặc không (ko quan trọng)
+System.out.println(a);==
+Person c = a.getInstance();
+System.out.println(c);
+
+9.Kế thừa (java không có đa kế thừa)
+Lệnh super() :Kế thừa hàm tạo nhưng viết ít hơn so c++,Lấy hàm lớp cha
+extends :Cho lớp con 
+public class Animal {
+    private String name;
+    public Animal(String name) {
+        this.name = name;
+    }
+
+}
+super TH1:Kế thừa hàm tạo
+public class Cat extends Animal {
+    private String breed;
+    public Cat(String name, String breed) {
+        super(name); // gọi constructor của lớp cha Animal với đối số name
+        this.breed = breed;
+    }
+}
+super TH2:Lấy hàm lớp cha
+Lớp cha:	public void getInfo() {
+		System.out.println("Name:"+this.name);
+		System.out.println("Age:"+this.age);
+		System.out.println("Height:"+this.height);
+	}
+Lớp con:        public void getInfo() {
+		super.getInfo();
+		System.out.println("University Name:"+this.universityName);
+	}
+
+10.Setter và Getter
+Khi đã dùng setter và getter thì thuộc tính nên để private
+Setter và Getter là 2 phương thức sử dụng để cập nhật hoặc lấy ra giá trị thuộc tính, đặc biệt dành cho các thuộc tính ở phạm vi private
+- Kiểu dữ liệu tham chiếu dùng clone (Ngoại trừ String) return this.array = array.clone();
+Hãy cẩn thận với kiểu dữ liệu tham chiếu: Dùng .clone()
+ +  VD có mảng int[] A = {0,1,2} class B ,truyền mảng A vào trong hàm tạo B có this.mang =A;
+ bên main ta thay A[0]=1 thì mang của B cũng sẽ thành A = {1,1,2}; Để khắc phục ta dùng this.mang =A.clone(), set get cũng dùng clone()
++  Riêng với kiểu dữ liệu String, mặc dù là kiểu dữ liệu tham chiếu.
+ Tuy nhiên, String có cơ chế là khi thay đổi giá trị thì nó bàn chất nó đang tạo ra một đối tượng String mới 
+ Vì vậy, như các kiểu dữ liệu nguyên thủy, bạn có thể làm phương thức getter và setter bình thường.
++ Tự tạo phương thức clone() 
+public Person clone() {
+		Person other = new Person(this.name, this.age, this.height);
+		return other;
+	}
+
+11.ghi đè(overiding) , Overloading
+Overriding (ghi đè) có nghĩa là có 2 phương thức giống nhau về tên và tham số truyền vào. Một phương thức ở lớp cha, còn cái kia ở lớp con.
+Overloading là nhiều phương thức trong một lớp có chung tên nhưng khác tham số truyền vào .VD hàm tạo 0 tham số, có tham số
+Th2 :super chính là ghi đè
+Để chống ghi đè ở lớp con ta dùng từ khoá final:
+public final void getInfo() {
+		System.out.println("Name:"+this.name);
+		System.out.println("Age:"+this.age);
+		System.out.println("Height:"+this.height);
+}
+
+12.Tính trừu tượng (abstract)
+- Lớp trừu tượng là lớp được khai báo mà không thể tạo ra đối tượng từ lớp đó. Ta sẽ tạo những lớp con kế thừa lớp trừu tượng.
+public abstract class Person {...}
+
+- Phương thức trừu tượng : Các phương thức trừu tượng là là chỉ định nghĩa mà không có chương trình bên trong, lớp con kế thừa phải bắt buộc override nó lại để sử dụng. 
+public abstract Object clone();Object thay cho person ,student gì đó bắt buộc phải overide lại
+
+13.interface(Thay đa kế thừa)
+Interface là một kiểu dữ liệu tham chiếu trong Java. Nó là tập hợp các phương thức abstract (trừu tượng).
+Khi một lớp kế thừa interface, thì nó sẽ kế thừa những phương thức abstract của interface đó.
+- Một số đặc điểm của interface:
++ Lớp con ko có interface mà lớp cha có thì lớp con cũng phải overide lại
++ Không thể khởi tạo, nên không có phương thức khởi tạo.
++ Tất cả các phương thức trong interface luôn ở dạng public abstract mà không cần khai báo.
++ Các thuộc tính trong interface luôn ở dạng public static final mà không cần khai báo, yêu cầu phải có giá trị.
+VD:interface IStudy {
+	void study();
+}
+
+Mục đích của interface là để thay thế đa kế thừa lớp của những ngôn ngữ khác (ví dụ như C++, Python…). 
+Ngoài ra, interface sẽ giúp đồng bộ và thống nhất trong việc phát triển hệ thống trao đổi thông tin.
+ Dùng implements với interface
+public class Student extends Person implements IStudy, ISpeak{}
+public abstract class Person implements ISpeak{} :Do person có abstract(ảo) nên có thể ko cần overide lại Ispeak
+Tuy nhiên lớp con của Person vẫn phải overide lại
+
+14.Hiểu thêm về hàm main
+public: Ta phải để quyền truy cập ở dạng public để JRE ở bên ngoài có thể truy cập được phương thức để thực thi. 
+static: Khi JRE bắt đầu, chưa có đối tượng nào được khởi tạo. Vì vậy ta nên để phương thức ở dạng static để JVM có thể load class vào bộ nhớ và có thể gọi phương thức.
+void: phương thức main bắt buộc là void
+String[] args: Đây là những tham số mà người dùng truyền vào sau tên lớp. Mặc định những giá trị người dùng sẽ nằm trong một mảng kiểu String tên args. 
+Như ta viết java Helloworld thì Java VM sẽ tìm phương thức main trong lớp HelloWorld để chạy chương trình. Nếu ta muốn viết main trong lớp khác cũng tương tự.
+
+15.Try-Catch
+Cú pháp
+try {
+
+    //Những khối lệnh có thể phát sinh lỗi
+
+} catch (Exception e) { //Exception =tên lỗi,hoặc để nguyên để bắt mọi lỗi 
+
+    //Chương trình thực hiện khi gặp lỗi trên,
+
+}
+VD :
+VD1 Bắt mọi lỗi: try {
+		for (String arg : args) {
+			S+= Integer.parseInt(arg);
+			System.out.println(arg);
+		}
+	} catch (Exception e) {
+		System.out.println("Error:"+e.toString());
+	}finally {
+		System.out.println("This is end");
+	}
+VD2 Bắt lỗi cụ thể : try {
+		int[] a = {5,6,7};
+		System.out.println(a[4]);
+	} catch (ArrayIndexOutOfBoundsException e) {
+		System.out.println("Index does not exist");
+	}finally {
+		System.out.println("This is end");
+	}
+Từ khóa finally có ý nghĩa sẽ chạy những dòng code sau khi kết thúc try catch bất kì có lỗi hay không.
+Từ khóa throw mục đích chính là để ném lỗi,
+ thường khi bạn viết các phương thức cho người khác người dùng và bắt người khác phải tự xử lý những trường hợp đó.
+ Bản chất các Exception là các class, nên khi ném lỗi có nghĩa là: 
+Bạn khởi tạo đối tượng Exception và throw cho người viết sau này phải catch lại
+
+static void inputValue(int value) {
+		if (value>100) {
+			throw new ArithmeticException("Value>100"); 
+		}
+	}
+
+- Bắt nhiều lỗi
+try {
+  //some code
+} catch (ExceptionType1 e1) {
+  //Catch block
+} catch (ExceptionType2 e2) {
+  //Catch block
+} catch (ExceptionType3 e3) {
+  //Catch block
+}
+
+
+16. Bốn tính chất của hướng đối tượng trong Java
+- Tính đóng gói (Encapsulation) : 
+Tính đóng gói nhằm bảo vệ đối tượng không bị truy cập từ code bên ngoài vào để thay để giá trị các thuộc tính hay có thể truy cập trực tiếp. Việc cho phép truy cập các giá trị của đối tượng tùy theo sự đồng ý của người viết ra lớp của đối tượng đó. 
+Tính chất này đảm bảo sự bảo mật, toàn vẹn của đối tượng trong Java.
+
+- Tính trừu tượng (Abstraction) :
+Tính trừu tượng là một tiến trình chỉ nói ra tính năng của người dùng, các khái niệm được định nghĩa trong quá trình phát triển, bỏ qua những chi tiết triển khai bên trong. 
+Tính trừu tượng cho phép người lập trình tập trung cốt lõi cần thiết của đối tượng thay vì quan tâm sự phức tạo bên trong hoặc cách nó hoạt động.
+
+- Tính thừa kế (Inheritance) : 
+Tính kế thừa cho phép chúng ta cải tiến chương trình bằng cách kế thừa lại lớp cũ và phát triển những tính năng mới. 
+Lớp con sẽ kế thừa tất cả những thành phần của lớp cha, nhờ sự chia sẻ này mới có thể mở rộng những đặc tính sẵn có mà không cần phải định nghĩa lại.
+
+- Tính đa hình (Polymorphism) :
+Tính đa hình có thể nói luôn tồn tại song song với tính kế thừa. Khi có nhiều lớp con kế thừa lớp cha nhưng có những tính chất khác nhau cũng gọi là đa hình, hoặc những tác vụ trong cùng một đối tượng được thể hiện nhiều cách khác nhau cũng gọi là đa hình. 
+Tính đa hình là kết quả tất yếu khi ta phát triển khả năng kế thừa và nâng cấp chương trình.
+
+17. Nhập liệu từ bàn phím 
+import java.util.Scanner;
+
+Scanner scanner = new Scanner(System.in);
+String input = scanner.next();
+
+18. Tạo dự án java qua vsc
+- Cần cài extension :
+Language Support for Java(TM) by Red Hat
+Java Extension Pack
+
+View → Command Palette(Ctrl shift p) ... , gõ java create project
+
+Lần đầu mở Project chọn menu Debug → Add Configuration để nó sinh file cấu hình chạy Java trong VSC .vscode/lauch.json
+Chạy nhấn CTRL + F5 hoặc để debug nhấn F5
+
+19. String trong Java
+//Khai báo biến chuỗi, khởi tạo ngay giá trị cho chuỗi
+String s = "xuanthulab.net";
+
+//Tạo đối tượng chuỗi với toán tử new
+String mgs = new String("Học Java");
+
+//Có một mảng ký tự
+char data[] = {'a', 'b', 'c'};
+String nString = new String(data); //Khởi tạo chuỗi, từ một mảng ký tự = abc
+
+- Các phương thức trên chuỗi :
+equals(s)	kiểm tra hai chuỗi giống nhau không (chú ý, toán tử so sánh == kiểm tra hai đối tượng cùng trỏ đến một chuỗi không)
+length()	Trả về chiều dài chuỗi
+concat()	Nối hai chuỗi thành một chuỗi mới, Có thể nhanh chóng nối hai chuỗi với toán tử +
+charAt(int index)	trả về ký tự tại vị trí index trong chuỗi, ký tự đầu tiên chỉ số index là 0
+equalsIgnoreCase(s)	kiểm tra hai chuỗi giống nhau (không phân biệt chữ hoa/thường)
+length()	trả về chiều dài chuỗi
+replace(old,new)	tìm và thay thế ký tự, chuỗi
+substring(int begin)
+substring(int begin, int end)	trả về trích xuất chuỗi con từ begin đến cuối hoặc end
+toLowerCase()/toUpperCase	trả về chuỗi mới bằng cách đổi chữ Hoa thành thường (hoặc thường thành Hoa)
+trim()	  ngắt bỏ khoảng trắng ở đầu và cuỗi
+toCharArray()	 lấy mảng các ký tự
+contains(s)	kiểm tra có chứa một chuỗi con
+IsEmpty()	kiểm tra chuỗi có rỗng không.
+split(separator)	chia chuỗi thành mảng với điểm ngắt là ký tự separator. Ví dụ tách chuỗi thành các từ str.split(" ");
+
+- Tạo ra chuỗi định dạng với printf, format :
+String s = String.format("Học %s trong %d tuần", "Java", 2);
+//s giờ bằng: "Học Java trong 2 tuần";
+
+Một số định dạng trong chuỗi :
+%c	ký tự
+%d	số thập phân
+%e	số thực dạng khoa học (3.000000e+11)
+%f	số thực
+%i	số nguyên
+%o	số cơ số 8
+%s	chuỗi
+%u	số thập phân không dấu
+%x	số cơ số 16
+%%	biểu diễn %
+\%	biểu diễn %
+\n	Ký tự xuống dòng
+
+- Chỉ ra chiều rộng định dạng với số nguyên :
+%5d có nghĩa khu vực đó sẽ để khoảng trống tối thiểu 5 ký tự khoảng trắng để điền số, số sẽ được căn về bên trái. 
+Ví dụ    34.
+%-5d sẽ căn về phải.
+
+- Điền số 0 vào trước :
+%05d thì nếu số nhỏ hơn 5 ký tự, thì phần bên phải tự động điền thành 0. Như tham số là 34 thì kết quả sẽ là 00034
+
+- Số chữ số sau dấu chấm :
+Các định dạng số thực %f có thể thiết lập số chữ số sau dấu chấm, ví dụ %.1f, cũng như thiết lập độ rộng tối thiểu phần nguyên giống ở trên.
+printf("'%.1f'", 10.3456);      //'10.3'
+printf("'%.2f'", 10.3456);      //'10.35'
+printf("'%8.2f'", 10.3456);     //'   10.35'
+printf("'%08.2f'", 10.3456);	//'00010.35'
+
+19. Thư viện toán học từ lớp Math của Java
+import java.lang.Math;
+
+Math.PI hằng số PI
+double g45 = Math.PI/4;
+
+Math.abs() trả về giá trị tuyệt đối của tham số
+int a = Math.abs(10);  // 10
+int b = Math.abs(-20); // 20
+
+Math.ceil() trả về giá trị double là số làm tròn tăng bằng giá trị số nguyên gần nhất
+double c = Math.ceil(7.342);  // 8.0
+
+Math.floor() trả về double là số làm tròn giảm
+double f = Math.floor(7.343);  // 7.0
+
+Math.max() lấy số lớn trong hai số
+int m = Math.max(10, 20);  // 20
+
+Math.min lấy số nhỏ
+int m = Math.min(10, 20);  // 10
+
+Math.pow lấy lũy thừa (cơ-số, số mũ)
+double p = Math.pow(2, 3); // 8.0
+
+Math.Math.sqrt() khai căn
+double a = Math.sqrt(9);//3
+
+Math.sin(), Math.cos() sin và cos của góc đơn vị radian
+double s = Math.sin(Math.PI/2);//1
+
+Math.random() sinh số double ngẫu nhiên từ 0 đến 1
+double r = Math.random();
+
+Math.toDegrees() đổi góc radian thành độ
+double goc = Math.toDegrees(Math.PI/2); //90
+
+Math.toRadians() đổi góc đơn vị độ ra radian
+double goc = Math.toRadians(45);//0.7853981633974483
+
+
+20 . Anonymous Class - Lớp không tên trong Java
+class Machine {
+  public void start() {
+    System.out.println("Starting...");
+  }
+}
+
+public static void main(String[ ] args) {
+	Machine m1 = new Machine() {
+		@Override public void start() {
+			System.out.println("Wooooo");
+		}
+	};
+	m1.start();
+	Machine m2 = new Machine();
+	m2.start();
+
+	Machine m3 = new Machine() {
+		@Override public void start() {
+			System.out.println("vroomvrom");
+		}
+	};
+
+	m3.start();
+}
+//Woooo
+//Starting
+//vroomvrom
+
+- Override riêng cho từng lớp khi định nghĩa mà ko ảnh hưởng nhau
+
+21. Lớp lồng nhau Inner Class trong Java
+Viết lớp trong Lớp
+
+22. So sánh đối tượng với Java
+Khi sử dụng toán tử so sánh bằng ==, nó sẽ sử dụng tham chiếu để so sánh chứ không sử dụng giá trị đối tượng so sánh.
+Animal a1 = new Animal("Robby");
+Animal a2 = new Animal("Robby");
+Animal a3 = a1;
+
+System.out.println(a1 == a2);//false
+System.out.println(a1 == a3);//true
+
+- Nạp chồng tự định nghĩa so sánh equals()
+Mỗi đối tượng đều có một phương thức định nghĩa sẵn equals() được sử dụng để so sánh về dữ liệu. 
+
+@Override
+public boolean equals(Object obj)
+
+23. Kiểu liệt kê enum trong Java
+enum Rank {
+  SOLDIER, //0
+  SERGEANT, //1
+  CAPTAIN //2
+}
+
+Dùng cần ép Kiểu
+
+24. Thread trong Java
+- Các trạng thái Thread 
+New một thread mới bắt đầu. Trạng thái là mới sinh, trạng thái này giữ nguyên cho tới khi thread bắt đầu khởi chạy.
+Runnable sau trạng thái New, thread chuyển sang trạng thái runable. Trạng thái này ám chỉ thread đang chạy
+Waiting đôi khi, thread ở trạng thái chờ một thread khác hoàn thành để tiếp tục chạy
+Dead thread vào trạng thái này khi thi hành xong tác vụ
+
+Có 2 cách để tạo ra một thread: Kế thừa lớp Thread hoặc triển khai giao diện Runnable
+
+- Tạo ra thread bằng cách kế thừa lớp Thread :
+Việc của bạn là kế thừa lớp Thread, nạp chồn phương thức run(), sau đó tạo đối tượng và gọi start để chạy thread
+Mọi thread trong Java đều có một độ ưu tiên, nhằm giúp hệ thống quyết định thứ tự chạy. 
+Độ ưu tiên có mức từ 1 đến 10 và thiết lập bằng phương thức setPriority()
+
+class Loader extends Thread {
+    int i=0;
+    Loader(int j){
+       this.i = j;
+    }
+    public void run() {
+    	for (int j = 1; j <=this.i; j++)
+        System.out.println("Hello " + this.i + "/" +j);
+    }
+}
+
+class MyClass {
+	public static void main(String[] args) {
+        Loader obj = new Loader(10);
+        Loader obj2 = new Loader(200);
+        Loader obj3 = new Loader(300);
+        obj.start();
+        obj2.start();
+        obj3.start();
+	}
+}
+
+- Tạo ra thread từ giao diện Runnable :
+Phương thức Thread.sleep() cho phép bạn dừng lại một thread trong một khoảng thời gian.
+class Loader implements Runnable {
+  public void run() {
+    System.out.println("Hello 1");
+    try {
+		Thread.sleep(5000);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+    System.out.println("Hello 2");
+
+  }
+}
+
+class MyClass {
+  public static void main(String[ ] args) {
+    Thread t = new Thread(new Loader());
+    t.start();
+  }
+}
+
+25. ArrayList và LinkedList trong Java
+- ArrayList : Giống vector c++
+import java.util.ArrayList;
+
+ArrayList colors = new ArrayList();
+ArrayList<Integer>colors = new ArrayList<Integer> (10);
+ArrayList<String> colors = new ArrayList<String>(3);
+
+Nên nhớ ArrayList lưu giữ các phần tử là đối tượng, nên các kiểu nguyên thủy int, double, float ... không dùng được. 
+Thay vào đó hãy dùng các lớp tương ứng như Integer, Double, Float ...
+
++ Một số phương thức ArrayList
+add(Object o) thêm phần tử vào cuối
+add(int index, Object element) chèn phần tử vào vị trí index
+remove(int index) xóa phần tử có chỉ số index
+clear() xóa mọi phần tử
+contains(Object o) kiểm tra mảng có chứa phần tử
+get(int index) lấy phần tủ có chỉ số index
+indexOf(Object o) lấy chỉ số trong mảng của phần tử
+size() lấy số phần tử
+toArray() chuyển thành mảng
+
+- LinkedList :
+LinkedList có cú pháp, khai báo rất giống với ArrayList, bạn dễ dàng đổi từ ArrayList sang LinkedList bằng cách thay kiểu đối tượng.
+ArrayList khi bạn cần truy cập nhanh dữ liệu
+LinkedList khi cần làm việc với việc chèn / xóa lượng lớn phần tử
+
+LinkedList<String> c = new LinkedList<String>();
+
+26. HashMap trong Java
+HashMap được sử dụng để lưu trữ dữ liệu tập hợp như là cặp key / value. 
+Các phương thức put, remove, get sử dụng để thêm, xóa, lấy phần tử trong HashMap
+
+import java.util.HashMap;
+
+//Chúng ta đã tạo ra HashMap với kiểu String là key, và Integers là giá trị.
+HashMap<String, Integer> points = new HashMap<String, Integer>();
+points.put("Amy", 154);
+points.put("Dave", 42);
+points.put("Rob", 733);
+System.out.println(points.get("Dave"));
+
+- Một số phương thức với HashMap
+clear() xóa toàn bộ phần tử
+containsKey(Object key) kiểm tra phần tử có key tồn tại
+containsValue(Object value) kiểm tra phần tử có giá trị value tồn tại hay không
+get(Object key) lấy giá trị phần tử theo key
+remove(Object key) loại bỏ phần tử theo key
+size() lấy số phần tử
+
+27. Tập hợp HashSet và LinkedHashSet trong Java 
+Một tập hợp là một nhóm các phần từ mà chúng không bị trùng nhau. 
+import java.util.HashSet;
+
+HashSet set = new HashSet();
+set.add("A");
+	for (Object s: set) {
+	System.out.println(s);
+}
+
+- Một số phương thức của HashSet / LinkedHashSet
+size() lấy số phần tử
+isEmpty() kiểm tra rỗng hay không
+contains(Object o) kiểm tra có chứa phần tử
+add(E e) thêm phần tử vào tập hợp
+remove(Object o) xóa phần tử khỏi tập hợp
+clear() xóa mọi phần tử khỏi tập hợp
+toArray() lấy mảng các phần tử
+
+28. Lớp Collections làm việc với tập hợp Java 
+import java.util.Collections;
+
+- Collection có nhiều phương thức tĩnh (gọi mà không cần tạo ra đối tượng Collections) tiện dụng như :
+sort(Collection c) sắp xếp danh sách
+max(Collection c) lấy giá trị lớn nhất trong c
+reverse(List list) đảo ngược thứ tự
+shuffle(List list) sắp xếp danh sách ngẫu nhiên
+
+VD1 :
+ArrayList<String> animals = new ArrayList<String>();
+animals.add("tiger");
+animals.add("cat");
+animals.add("snake");
+animals.add("dog");
+
+Collections.sort(animals);
+
+29. Duyệt phần tử với Iterator trong Java
+import java.util.Iterator;
+
+- Lớp Iterator trong java.util cung cấp các phương thức
+hasNext(): có phần tử tiếp theo hay không
+next(): lấy phần tử tiếp theo
+remove(): loại bò phần tử cuối cùng
+
+LinkedList<String> animals = new LinkedList<String<();
+animals.add("fox");
+animals.add("cat");
+animals.add("dog");
+animals.add("rabbit");
+
+Iterator<String> it = animals.iterator();
+while(it.hasNext()) {
+	String value = it.next();
+	System.out.println(value);
+}
+
+/*
+fox
+cat
+dog
+rabbit
+*/
+
+30. Làm việc với file trong Java
+Package java.io có lớp File cho phép bạn làm việc với các file (tệp). 
+
+import java.io.File;
+
+File file = new File("C:\\data\\input-file.txt");
+
+- Một số phương thức lớp File :
+exists() kiểm tra xem file có tồn tại hay không
+getName() lấy tên file (input-file.txt)
+getParent() lấy đường dẫn thư mục của file
+getPath() đường dẫn đầy đủ
+isDirectory() kiểm tra xem là thư mục hay không
+isFile() kiểm tra xem là file hay không
+length() cỡ file (byte)
+createNewFile() tạo ra file mới
+delete() xóa file
+list() lấy tên file, thư mục chứa trong đường dẫn
+mkdir() tạo thư mục
+renameTo(File dest) đổi tên file
+
+- Tạo file mới và viết nội dung vào file
+Lớp Formatter (java.util.Formatter) có thể tạo ra file mới và dùng để viết nội dung vào file bằng phương thức format
+try {
+    Formatter f = new Formatter("C:\\sololearn\\test.txt");
+    f.format("%s %s %s", "1","John", "Smith \r\n");
+    f.close();
+} catch (Exception e) {
+    System.out.println("Error");
+}
+
+- Đọc nội dung file 
+Lớp Scanner kế thừa từ lớp Iterator được sử dụng để đọc nội dung file. 
+Nếu đọc theo từng dòng dùng phương thức hasNextLine và nextLine kết hợp.
+
+import java.io.File;
+import java.util.Formatter;
+import java.util.Scanner;
+
+import java.io.FileNotFoundException;
+
+try {
+	File x = new File("C:\\xuanthulab.net\\test.txt");
+	Scanner sc = new Scanner(x);
+	String content = "";
+	while(sc.hasNextLine()) {
+		content += sc.nextLine()+"\r\n";
+	}
+	System.out.println(content);
+
+	sc.close();
+} catch (FileNotFoundException e) {
+	System.out.println("Error");
+}

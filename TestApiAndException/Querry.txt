@@ -1,0 +1,29 @@
+CREATE USER 'spring'@'%' IDENTIFIED BY 'spring';
+GRANT ALL PRIVILEGES ON * . * TO 'spring'@'%';s
+
+CREATE DATABASE student_ms
+
+
+CREATE TABLE `students`(
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`email` VARCHAR(45) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci', 
+`first_name` VARCHAR(45) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci', 
+`last_name` VARCHAR(45) NULL DEFAULT NULL COLLATE 'utf8mb4_general_ci', 
+PRIMARY KEY (`id`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci'
+ENGINE=InnoDB;
+
+
+INSERT INTO students (email, last_name, first_name)
+VALUES
+('email1@example.com', 'Nguyễn', 'Văn A'), 
+('email2@example.com', 'Trần', 'Thị B'), 
+('email3@example.com', 'Lê', 'Đức C'), 
+('email4@example.com', 'Phạm', 'Minh D'),
+('email5@example.com', 'Võ', 'Hoàng E'),
+('email6@example.com', 'Nguyễn', 'Thị F'),
+('email7@example.com', 'Trần', 'Văn G'),
+('email8@example.com', 'Lê', 'Thanh H'),
+('email9@example.com', 'Phạm', 'Quang I'),
+('email10@example.com', 'Võ', 'Tuấn J');

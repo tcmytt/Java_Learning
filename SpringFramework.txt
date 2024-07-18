@@ -1,0 +1,1442 @@
+1. Framework là gì?
+- Framework là một tập hợp các :
+thư viện(Library), mô hình thiết kế(Design pattern), công cụ(tooling) ,cấu trúc thư mục (Directory structure), cách hoạt động (WorkFlow)
+và quy tắc mà lập trình viên có thể sử dụng để xây dựng các ứng dụng nhanh chóng và hiệu quả
+
+- Chia thành 4 dạng Framework : 
++ Web Frameworks : Ruby on Rail, Asp.net, Laravel, Vue, Django, Express, Spring, Angular,...
++ Mobile Frameworks : Flutter, React Native, Iconic, Jquery Mobile, Apache Cordova,...
++ Desktop Frameworks : WPF winform, Apple Cocoa, JavaFx, Lazarus,...
++ Data Science Frameworks : Django, Flink ,Apache Spark ,Apache Storm , Flask, Kafka,...
+
+2.  Spring Framework & Spring Boot
+Spring Framework là Framework
+Spring Boot tích hợp sẵn webServer TomCat, Jetty, Undertow Không cần triển khai tệp WAR mà triển khai file JAR có sẵn web container rồi
+WAR là file mang lên server để deploy dự án
+Spring Boot = Spring Framework + Application Container + Configuration
+Spring Boot giúp tạo Spring nhanh hơn
+
+3. Bắt đầu với dự án Spring Boot: HELLO WORLD!
+Vào start.spring.io tạo dự án
+Maven là công cụ quản lí dự án, dễ dàng quản lí thư viện
+Lên mvnrepository.com kéo các thư viện, plugin cần thiết về cho dự án Copy về bỏ vào file pom.xml
+<modelVersion>4.0.0</modelVersion> trong pom.xml là version của maven
+
+4. Tổng quan về Spring 
+- Core Container 
++ Beans : Là đối tượng(Object) trong Spring, Spring Container tạo, cấu hình và quản lí Beans, được khai báo, cấu hình qua tệp XML, Annotations hoặc Java-Base Configuration
+SinhVien sv = new SinhVien() thì SinhVien là class còn sv là đối tượng(object) 
++ Core : Chứa các lớp(Class) và các giao diện(Interface) cung cấp tính năng cốt lõi của Spring như DI, IoC . Cung cấp các lớp và giao diện như 
+ApplicationContext, BeanFactory, ResourceLoader, và các lớp hỗ trợ quản lí và tạo các bean
++ Context : Nó cung cấp các tính năng  việc tạo và quản lý các Bean,xử lý sự kiện, quản lý giao dịch và quản lý chuỗi thông báo. 
+Context được xây dựng dựa trên Core và cung cấp các chức năng mở rộng để giúp quản lý các Bean trong quá trình thực thi ứng dụng.
++ SpEL (Spring Expression Language) : là một ngôn ngữ biểu thức mạnh trong Core Container của Spring. 
+SpEL được sử dụng trong các tệp cấu hình XML, Annotations và Java-based configuration để thực hiện các tác vụ như:
+● Truy cập và đặt giá trị thuộc tính của đối tượng.
+● Gọi các phương thức của đối tượng.
+● Thực hiện các phép tính và toán tử.
+● Xử lý biểu thức điều kiện và vòng lặp.
+● Tương tác với các tài nguyên bên ngoài như properties file,environment variables, hoặc các bean khác trong Spring Container
+
+- AOP (Aspect-Oriented Programming) là mô hình lập trình sử dụng trong Spring Boot để tách biệt các khía cạnh (concerns) khác nhau trong ứng dụng. 
+Cho phép tách riêng mục đích mã như logging, giao dịch, bảo mật, caching và xử lý ngoại lệ, và áp dụng chúng vào mã của bạn mà không cần thay đổi trực tiếp mã đó.
+
+- Aspect: Aspect là một đối tượng chứa mã thực hiện các khía cạnh chung như logging, giao dịch, bảo mật, và nhiều hơn nữa. 
+Aspect được xác định bằng cách sử dụng annotations hoặc XML configuration.
+
+- Instrumentation : có thể được hiểu như việc mở rộng hoặc tăng cường chức năng của một ứng dụng, đặc biệt là các khía cạnh liên quan đến 
+giám sát (monitoring), phân tích (analytics) và ghi lại (logging)
+
+- Message : Liên quan đến việc truyền thông tin hoặc dữ liệu giữa các thành phần của hệ thống. 
+Nó có thể gửi và nhận thông điệp (message) qua giao thức như HTTP, JMS (Java Message Service), AMQP (Advanced Message Queuing Protocol), Kafka, v.v. 
+Spring Boot cung cấp nhiều cơ chế để hỗ trợ giao tiếp qua tin nhắn, bao gồm Spring Integration, Spring Cloud Stream và Spring AMQP.
+
+- Data Access/Integration : 
++ JDBC (Java Database Connectivity): là một API (Application Programming Interface) trong Java cho phép các ứng dụng Java tương tác với các cơ sở dữ liệu quan hệ. 
++ ORM(Object-Relational Mapping): là một kỹ thuật trong lập trình phần mềm để ánh xạ dữ liệu giữa các đối tượng trong mã lập trình và cơ sở dữ liệu quan hệ.
++ OXM (Object-XML Mapping): là một kỹ thuật trong lập trình phần mềm để ánh xạ dữ liệu giữa các đối tượng trong mã lập trình và dữ liệu XML. 
++ JMS(Java Message Service): là một API Java tiêu chuẩn cho phép ứng dụng Java gửi tin nhắn đến một ứng dụng khác.
++ Transactionss (giao dịch): là một cơ chế cho phép thực hiện các hoạt động cơ bản của cơ sở dữ liệu một cách an toàn và đáng tin cậy. 
+Giao dịch giúp đảm bảo tính toàn vẹn của dữ liệu bằng cách đảm bảo rằng các thao tác cơ sở dữ liệu được thực hiện hoàn toàn hoặc không thực hiện hoàn toàn.
+
+- Web :
++ WebSocket : là giao thức truyền thông hai chiều (full-duplex) dựa trên TCP, cho phép thiết lập kết nối liên tục và thời gian thực giữa một máy khách (client) và một máy chủ (server) trên web.
+Nó cho phép truyền thông tin hai chiều đồng thời, là cả client và server có thể gửi và nhận dữ liệu một cách đồng thời trong một kết nối duy nhất.
++ Web : Trong Spring Framework, để xây dựng ứng dụng web, bạn có thể sử dụng module Spring Web MVC
++ Servlet : là một thành phần của Java Enterprise Edition (Java EE) được sử dụng để xây dựng ứng dụng web. 
+Nó là một lớp Java được viết để xử lý yêu cầu (request) từ client và trả về phản hồi (response) tương ứng.
++ Portlet : là một khái niệm trong Java Portlet Specification (JSR-286) và được sử dụng để xây dựng các ứng dụng web phù hợp với mô hình portal.
+
+- Test : 
+
+5. Spring 
+@RestController ,@Value("${course.name}"), @GetMapping("/")
+- Spring Project : Boot, Framework, Cloud, Data, Integration, Batch, Security,.. Được phát triển lên từ Spring Core thành dự án cho từng mục tiêu riêng biệt
+- Cấu trúc thư mục Spring Maven : 
++ file .md là markDown
++ mvn spring-boot:run
++ resource/static/ Chứa html và các folder images,scripts,styles chứa png,js,css
++ resource/templates Chứa các mẫu như Spring Thyme Leaf làm báo cáo
+
++ resource/application.properties cấu hình các thuộc tính như csdl, cổng server, thymleaf, cổng email, logging,...
+ Lưu ý trong application.properties không có khoảng trắng,chấm phẩy chỉ có xuống dòng 
+VD: 
+Trong application.properties :
+# Cấu hình server Port
+server.port=8080
+# Thông tin khoá học
+course.name=Spring Boot
+course.author=Le Nhat \=Tung
+course.description=Spring Boot Tutorial
+
+Lấy dữ liệu :
+@Value("${course.name}")
+private String  TenKH;
+
+6. Tự động cấu hình pom.xml với spring-boot-starter và tự động build lại dự án với spring-boot-devtools
+- Cả 2 đều là Dependency, spring-boot-starter có sẵn còn spring-boot-devtools phải cài ngoài
+- spring-boot-starter-* : Thẻ parent kẹp trong file pom.xml chứa Dependency Spring Boot Starter giúp cấu hình thẻ con phụ thuộc bên dưới đồng bộ về phiên bản
+và đơn giản hoá cấu hình
+- spring-boot-devtools : Cập nhập và Khởi động nhanh hơn, chỉ dùng trong môi trường phát triển
+<scope>runtime</scope> là chỉ dùng trong khi dev 
+
+<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <scope>runtime</scope>
+    <optional>true</optional>
+</dependency>
+
+Lưu ý trên intelliJ cần vào 
++ setting/Build/Compiler  bật build project automatic 
++ setting/Advanced Setting bật Allow auto-make to starup event ...
+Cấu hình xong cần vào maven/reload project rồi build lại 
+
+7. Dependency Actuator 
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+- là một sub-probject của Spring Boot. Actuator cho phép ta theo dõi, giám sát ứng dụng, thu thập số liệu, lưu lượng truy cập hay trạng thái 
+cơ sở dữ liệu, v.v. mà không cần thêm bất kỳ dòng code nào chỉ bằng cách chạy vào các endpoints.
+
+actuator/health : Trả về UP(đang hoạt động), DOWN(không hoạt động), UNKNOW(không biết)
+actuator/info : Tên ứng dụng, mô tả, phiên bản ... Cấu hình thông tin info trong application.properties :
+    # Thông tin ứng dụng
+    management.info.env.enabled=true
+    info.app.name=My Application
+    info.app.description=This is my application
+    info.app.version=1.0.0
+actuator/metrics : Thông tin chỉ số thống kê hiệu suất
+actuator/env : Xem cấu hình, biến môi trường
+actuator/beans : Liệt kê tất cả các beans
+actuator/loggers : Quản lý và xem thông tin về logger trong ứng dụng
+actuator/mappings : Hiển thị url mapping trong ứng dụng
+actuator/trace : Hiển thị thông tin request gần đây được gửi đến ứng dụng
+actuator/threaddump : Thông tin về thread dump
+actuator/scheduledtasks : Thông tin vê nhiệm vụ định kỳ (Ví dụ gửi mail cho khách hàng chúc mừng năm mới)
+
+- Tắt server từ xa chạy vào endpoint .../shutdown , cần bật trước
+management.endpoint.shutdown.enabled=true
+
+- Cấu hình trong application.properties 
+# Cho phép truy xuất
+management.endpoints.web.exposure.include=health,info
+management.endpoints.web.exposure.include=*
+# Chặn truy xuất
+management.endpoints.web.exposure.exclude=info
+
+- Cấu hình mật khẩu endpoints cần cài thêm : 
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+Cấu hình Username - Password :
+spring.security.user.name=admin
+spring.security.user.password=your_password
+spring.security.user.roles=ADMIN
+
+hoặc tài khoản mặc định là user, còn mk được tạo ra trong terminal khi khởi động dự án
+
+8. IoC Đảo ngược điều khiển (Inversion of Control)
+- Kiểm soát việc tạo và quản lý các đối tượng được đảo ngược hoàn toàn từ mã nguồn của ứng dụng sang một framework hoặc container.
+Thay vì mã nguồn tạo và quản lý các đối tượng, framework sẽ đảm nhiệm vai trò này. 
+Điều này cho phép tách biệt mã nguồn ứng dụng với quyết định về việc tạo và quản lý đối tượng.
+
+- Dependency Injection (Tiêm phụ thuộc):
+A phụ thuộc vào B nếu A cần B để làm 1 việc cụ thể. A "phụ thuộc" B.
+Một đối tượng phụ thuộc có thể là tham số truyền vào , thuộc tính,hoặc phương thức được sử dụng bởi đối tượng khác
+
+@Autowired: Được sử dụng để tiêm các phụ thuộc vào một thành phần. Nó có thể được áp dụng trên constructor, setter method, hoặc các thuộc tính.
+@Inject: Tương tự như @Autowired, @Inject cũng được sử dụng để tiêm các phụ thuộc vào một thành phần. Đây là một annotation từ JSR-330, và Spring hỗ trợ nó.
+@Qualifier: Được sử dụng để xác định rõ ràng khi có nhiều bean cùng loại và bạn muốn chỉ định bean cụ thể nào sẽ được tiêm.
+@Value: Được sử dụng để tiêm giá trị từ tài nguyên cấu hình vào các thành phần. Nó không phải là DI, nhưng nó cho phép bạn truy cập các giá trị cấu hình trong ứng dụng.
+@Primary: Được sử dụng để chỉ định rõ ràng bean mặc định được sử dụng khi có nhiều bean cùng loại.
+@Resource: Tương tự như @Autowired, @Resource được sử dụng để tiêm các phụ thuộc vào một thành phần. Nó hỗ trợ cả tên bean và tên thuộc tính trong trường hợp có nhiều bean phù hợp.
+
+- Trong Spring framework, giao diện  ApplicationContext đại diện cho IoC container. 
+Spring container chịu trách nhiệm khởi tạo, cấu hình và lắp ráp các đối tượng được gọi là Beans cũng như quản lý vòng đời của chúng.
+
+- Dependency Injection Có nhiều loại, nhưng hai loại được sử dụng chính gồm có:
++ Constructor Injection : Khởi tạo đối tượng có phụ thuộc hoàn toàn và đảm bảo rằng đối tượng sẽ không bị thiếu phụ thuộc khi sử dụng.
+sử dụng annotation @Autowired trên constructor hoặc sử dụng constructor không đánh dấu và sử dụng annotation
++ Setter Injection : khởi tạo đối tượng và tiêm phụ thuộc diễn ra ở hai bước riêng biệt. Khi các phụ thuộc là tùy chọn (có hoặc không)
+sử dụng annotation @Autowired trên setter method hoặc sử dụng annotation @Autowired trực tiếp trên thuộc tính.
+
+- Ví dụ class EmailService tiêm vào NotificationController thì :
++ Cần có @Component trên class EmailService 
+@Component
+public class EmailService implements MessageInterface{
+    @Override
+    public String sendMessage() {
+        return "Email sending ...";
+    }
+}
+
++ Còn @Autowired trên hàm tạo của NotificationController 
+@RestController
+public class NotificationController {
+    // Đây là Field Injection, không khuyến khích
+    @Autowired
+    private MessageInterface email;
+
+    // Đây là Constructor Injection
+    @Autowired
+    public NotificationController(EmailService email) {
+        this.email = email;
+    }
+
+    // Đây là Setter Injection, có thể ko nhất thiết là tên là set, có @Autowire là được
+    @Autowired
+    public void setEmail(EmailService email){
+        this.email = email;
+    }
+
+
+    @GetMapping("/sendEmail")
+    public String sendEmail() {
+        return this.email.sendMessage();
+    }
+}
+
+9. Component và Injection
+- Cấu hình Annotations qua từ khoá @Component trước dòng tên class giúp cho lớp đó biến thành bean được quản lí bởi Spring , tiêm vào các dịch vụ
+@Component
+public class Student{
+
+}
+
+@Component
+public class Teacher{
+    
+}
+
+@Component
+public class ClassRoom{
+    private Student stu;
+    private Teacher tea;
+
+    // Tiêm vào dễ dàng ko cần từ khoá new 
+    @Autowired
+    public ClassRoom(Student stu,Teacher tea){
+        this.stu=stu;
+        this.tea=tea;
+    }
+}
+
+10. Học về annotation @SpringBootApplication
+@SpringBootApplication = @EnableAutoConfiguration(Tự động cấu hình dependency, bean) 
++ @ComponentScan(Quét Component trong pakage hiện tại và sub pakage) 
++ @Configuration
+
+VD quét thêm các package bên ngoài
+@SpringBootApplication(
+		scanBasePackages = {"vn.LearningSpring.HelloWorld","packageABC"}
+)
+
+11.Học về annotation @Qualifier, @Primary
+- Khi ta tạo 1 Interface Imessage mà Imessage được implements cho nhiều Service như email,zalo,sms thì khi dùng Autowired Spring ko biết nên tiêm
+vào thằng implement nào do đó dùng @Qualifier, ko cần dùng @Autowired
+Lưu ý : @Qualifier("sms") thì có tên class là Sms nhưng viết vào @Qualifier thì chữ đầu tiên bắt buộc viết thường thành sms 
+
+@Component
+public class MyService{
+    private Imessage mess;
+
+    public MyService(@Qualifier("sms") Imessage mess){
+        this.mess=mess;
+    }
+}
+
+- Dùng @Primary để chỉ định rõ ràng bean ưu tiên trong th nhiều bean thoả mãn, khi đó nếu ko nêu cụ thể nó sẽ tiêm bean primary
+Viết dòng trên class bean, lưu ý chỉ dùng 1 @Primary cho cùng kiểu dữ liệu (Implement chung)
+@Component
+@Primary
+public class SmsService implements MessageService{
+    @Override
+    public String sendMessage() {
+        return "Sms sending ...";
+    }
+}
+
+12. Khởi tạo lười biếng (Lazy Initialization)
+- Khi spring application được chạy, nó sẽ khởi tạo hết @Component dù chưa được dùng đến, Lazy Initialization là chỉ khởi tạo khi cần dùng đến
+Giống khái niệm chỉ tải về từ database khi dùng đến của hibernate
+- Có 2 cách áp dụng :
++ Dùng annotation @Lazy cho class chỉ khởi tạo khi cần dùng đến
++ Cấu hình trong application.properties : spring.main.lazy-initialization=true
+-  Khi dùng trong @RestController, bean sẽ không được gọi cho đến khi request được gọi
+
+13. Phạm vi của bean (bean scope)
+- Có 7 phạm vi : 
++ Singleton : Đây là phạm vi mặc định cho các bean trong Spring. Mỗi lần yêu cầu bean, container chỉ trả về một phiên bản duy nhất của bean đó.
+Nếu bean đã tồn tại, container sẽ cung cấp bean đó, ngược lại container sẽ tạo mới bean và lưu trữ để sử dụng cho yêu cầu tiếp theo
++ Prototype : Mỗi lần yêu cầu bean, container sẽ tạo một phiên bản mới của bean đó. Mỗi yêu cầu bean đều nhận được độc lập . Đối tượng tạo ra không
+lưu trữ trong container và không chia sẻ giữa các yêu cầu.
++ Request(Get/post) : Phạm vi này chỉ áp dụng cho ứng dụng web . Với mỗi yêu cầu http được tạo ra, spring container sẽ tạo ra 1 phiên bản mới của bean để phục
+vụ yêu cầu đó. Khi yêu cầu được hoàn thành đối tượng bean đó được huỷ.
++ Session : Phạm vi cũng áp dụng cho ứng dụng web. Mỗi phiên chỉ có 1 phiên bản duy nhất của bean được tạo ra và chia sẻ. Hết phiên làm việc
+bean được huỷ .
++ Global Session : Phạm vi cũng áp dụng cho ứng dụng web và tương tự như phạm vi session. Tuy nhiên chỉ áp dụng môi trường phân tán(distribute environment)
+ví dụ Spring Portlet MVC. Tồn tại trong suốt quá trình làm việc web phân tán
++ Application : Chỉ áp dụng cho ứng dụng web và tương tự như singleton. Bean tồn tại cho đến khi web bị dừng.
++ WebSocket : Áp dụng cho ứng dụng dùng giao thức webSocket. Mỗi phiên kết nối WebSocket sẽ có một phiên bản duy nhất của bean, phiên kết nối kết
+thúc bean được huỷ
+
+- Cách đổi phạm vi, viết trước class
+@Component
+@Scope("prototype")
+hoặc @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+
+Khi tạo kết nối đến database dùng singleton, do chỉ cần 1 kết nối 
+
+14. Vòng đời của bean (bean life cycle) @PostConstruct, @PreDestroy
+- @PostConstruct đặt trước phương thức trong 1 bean để chỉ định rằng phương thức đó sẽ được gọi tự động sau khi bean được khởi tạo và trước khi nó
+được sử dụng . Phương thức được chú thích bằng @PostConstruct phải không trả về và không có tham số 
+- @PreDestroy tương tự nhưng là ngay trước khi huỷ bỏ bean, có thể viết nhiều phương thức PostConstruct và @PreDestroy 
+
+@Component
+public class MyBean{
+    @PostConstruct
+    public void init(){
+        // Các công việc ngay sau khi bean được khởi tạo
+    }
+
+    @PreDestroy
+    public void clean(){
+        //Các công việc ngay trước khi bean bị huỷ bỏ
+        SavePlayerState();
+    }
+}
+
+Lưu ý : Khi sử dụng prototype không destroy, không lazy
++ Spring không gọi phương thức Destroy do việc quản lý vòng đời của bean tạo ra bởi prototype được giao cho ứng dụng sử dụng bean đó.
++ Không cần khai báo @Lazy do prototype scope đã tự động trì hoãn việc tạo bean
+
+15. Cấu hình bean bằng java code 
+- Dùng cho các class từ thư viện khác, hoặc các class đã có sẵn trong java (Ví dụ java.lang.Math) để biến các class này thành bean dùng trong
+dự án Spring .
+Bc1 : Tạo lớp @Configuration 
+Bc2 : Xây dựng phương thức tạo bean, đánh dấu @Bean 
+Bc3 : Inject bean vào phụ thuộc : @Qualifier(Bean id)
+Bean id là tên method
+
+@Configuration
+public class MyClass{
+    @Bean
+    public MyBean myBean(){
+        return new MyBean();
+    }
+}
+
+16. Hibernate và JPA trong Spring
+JPA(Java Persistence API) là tiêu chuẩn phát triển framework ORM, bao gồm interface và phương thức yêu cầu thực hiện
+Cần dependency mySql-connector-java ,spring-boot-stater-data-jpa .
+- Tạo user trong mySql : 
+CREATE USER 'username'@'host' IDENTIFIED BY 'password';
+
+username: Tên của user mới.
+host: Địa chỉ máy chủ mà user có thể kết nối từ đó. Thông thường, bạn sẽ sử dụng localhost cho user cục bộ hoặc % cho phép kết nối từ bất kỳ máy chủ nào.
+password: Mật khẩu của user. Nên chọn mật khẩu mạnh và bảo mật.
+VD: CREATE USER 'spring'@'%' IDENTIFIED BY 'spring';
+CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypassword';
+
+- Gán quyền cho user :
+GRANT <permission> ON <database_name>.<table_name> TO 'username'@'host';
+
+permission: Quyền mà bạn muốn gán cho user. Ví dụ: SELECT, INSERT, UPDATE, DELETE, CREATE, DROP v.v.
+database_name: Tên của database mà bạn muốn gán quyền.
+table_name: Tên của bảng mà bạn muốn gán quyền (tùy chọn). Nếu bạn không chỉ định tên bảng, quyền sẽ được áp dụng cho tất cả bảng trong database.
+username: Tên của user mà bạn muốn gán quyền.
+host: Địa chỉ máy chủ mà user có thể kết nối từ đó.
+
+VD: GRANT ALL PRIVILEGES ON * . * TO 'spring'@'%';
+GRANT SELECT ON mydatabase.* TO 'myuser'@'localhost';
+
+- Tạo database :
+CREATE DATABASE 
+IF NOT EXISTS `QuanLySinhVien` 
+CHARACTER SET utf8mb4 
+COLLATE utf8mb4_general_ci;
+
+17. Cấu hình spring boot hibernate
+- Trong spring boot hibernate là mặc định khi muốn dùng JPA
+- Có lớp EntityManager, có thể :
++ Lưu trữ đối tượng vào csdl bằng persist();
++ Lấy dữ liệu bằng find() hoặc các truy vấn queryMethod 
++ Cập nhập đối tượng bằng phương thức merge();
++ Xoá đối tượng bằng remove();
+
+- Sử dụng @PersistenceContext hoặc @Autowired để tiêm EntityManager vào các bean Spring.
+- Lưu ý :
++ Cần các dependency : jdbc như mySql-connector-java ,spring-boot-stater-data-jpa 
++ Cần cấu hình thông tin kết nối trong application.properties
+spring.datasource.url=jdbc:mysql://localhost:3306/db_name
+spring.datasource.username=db_username
+spring.datasource.password=db_password
+
+#spring boot tự động phát hiện ra driver-class nên dòng dưới ko cần thiết
+#spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+18. Annotation trong JPA 
+- Ánh xạ class -> table : @Entity 
+Trong class Bắt buộc có một constructor rỗng nếu muốn tương tác 
+
+VD: 
+@Entity //@Entity(name="sinhvien") nếu muốn không dùng tên class mặc định làm tên bảng
+@Table(name="sinhvien")
+public class Student{
+    @Id 
+    @GeneratedValue(strategy = GenerationType.AUTO)  // Tự tăng giá trị cho phù hợp 
+    //@GeneratedValue(strategy = GenerationType.IDENTITY) GenerationType.SEQUENCE .TABLE
+    private long id;
+
+    @Column(name="name",length=50)
+    private String ten;
+
+    @Column(name="tuoi", nullable=false)
+    private int age;
+
+}
+
+- Phân biệt @Entity và @Table, @Entity là bắt buộc
+@Entity(name="sinhvien"): Đánh dấu một lớp Java là một entity và có thể được lưu trữ trong database.
+@Table(name="sinhvien"): Chỉ định tên bảng trong database mà entity được ánh xạ.
+Bạn nên sử dụng cả hai annotation này khi bạn đang ánh xạ một lớp Java với một bảng trong database.
+
+19. DAO Data Access Object
+- Là một Design Pattern phổ biến
+VD: Tạo 1 inteface BookDAO gồm saveBook(), loadBook(). Thì có DBBookDAO implement lại để làm việc với book lấy từ csdl 
+và FileBookDAO implement lại để làm việc với book lấy từ file Logic khác nhau nhưng đều cần các phương thức chung
+
+- Chúng ta cần dùng EntityManager, Datasource để thực hiện thao tác với DB,@Autowired được dùng để inject vào các DAO
+StudentDAO <-> EntityManager <-> Datasource <-> DB
+
+public interface SinhVienDAO {
+    List<SinhVien> getAll();
+    SinhVien getById(int id); 
+    void save(SinhVien sinhVien); 
+    void update(SinhVien sinhVien); 
+    void delete(int id);
+}
+
+@Repository
+@Transactional
+public class SinhVienDAOImpl implements SinhVienDAO {
+    private  EntityManager entityManager;
+    @Autowired
+    public SinhVienDAOImpl(EntityManager entityManager) { 
+        this.entityManager = entityManager; 
+    }
+    public void save(SinhVien sinhvien) { 
+        entityManager.persist(sinhvien); 
+    }
+
+    @Transactional(readOnly = true)
+    public SinhVien getById(int id) { 
+        entityManager.find(SinhVien.class, id); 
+    }
+}
+
+- @Repository(Dành cho DAO) , @RestController ,... tất cả đều là @Component, chia ra để Spring quản lý nó tốt hơn 
+- @Transactional viết sau @Repository sẽ biến tất cả phương thức bên trong class đó thành Transaction
+- @Transactional(...) viết trước phương thức sẽ chỉ định riêng cho nó, readOnly = true chỉ cho đọc dữ liệu không cho sửa 
+#Cấu hình làm gọn console
+spring.main.banner-mode=off
+logging.level.root=WARN 
+
+20. Truy vấn đối tượng 
+@Repository
+@Transactional
+public class SinhVienDAOImpl implements SinhVienDAO{
+    private EntityManager entityManager;
+
+    @Autowired
+    public SinhVienDAOImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    @Override
+    public void save(SinhVien sinhVien){
+        this.entityManager.persist(sinhVien);
+    }
+
+    @Override
+    public SinhVien getById(int id) {
+        return this.entityManager.find(SinhVien.class, id);
+    }
+}
+
+21.JPQL – Java Persistence Query Language
+JPQL ko làm việc với bảng và cột mà làm việc với các đối tượng và thuộc tính của chúng.
+Dùng các từ khoá như SELECT, FROM, WHERE, ORDER BY, GROUP BY và các hàm truy vấn
+
+- SinhVien là tên @Entity chứ ko phải tên bảng s.ten là tên thuộc tính trong @Entity
+String jpql = "SELECT s FROM SinhVien s WHERE s.ten=:ten"
+TypedQuery<SinhVien> query = entityManager.createQuery(jpql, SinhVien.class)
+query.setParameter("ten", "Nguyễn Văn A");
+List<SinhVien> sinhViens = query.getResultList();
+
+- Các lệnh JPQL :
+SELECT [DISTINCT] select_expression [AS alias_expression]
+FROM entity_name [AS alias_name]
+[JOIN | LEFT JOIN | INNER JOIN | LEFT OUTER JOIN] join_entity [AS join_alias]
+[WHERE where_condition]
+[GROUP BY grouping_expression]
+[HAVING having_condition]
+[ORDER BY ordering_expression [ASC | DESC]]
+
+@Override
+public List<SinhVien> getAll() {
+    String jpql ="SELECT sv FROM SinhVien sv";
+    return this.entityManager.createQuery(jpql, SinhVien.class).getResultList();
+}
+
+@Override
+public List<SinhVien> getByTen(String ten) {
+    String jpql ="SELECT sv FROM SinhVien sv WHERE sv.ten = :ten";
+    return this.entityManager.createQuery(jpql, SinhVien.class).setParameter("ten", ten).getResultList();
+}
+
+22. Update,delete đối tượng 
+@Override
+public SinhVien update(SinhVien sinhVien) {
+    return this.entityManager.merge(sinhVien);
+}
+
+@Override
+public int updateAllTen(String ten) {
+    String jpql = "UPDATE SinhVien s SET s.ten=:t";
+    Query query =  this.entityManager.createQuery(jpql);
+    query.setParameter("t", ten);
+    return query.executeUpdate();
+}
+
+@Override
+public void delete(Long id) {
+    SinhVien sinhVien=this.entityManager.find(SinhVien.class, id);
+    this.entityManager.remove(sinhVien);
+}
+
+@Override
+public void deleteByTen(String ten) {
+    String jpql = "DELETE FROM SinhVien s WHERE s.ten=:t";
+    Query query =  this.entityManager.createQuery(jpql);
+    query.setParameter("t", ten);
+    query.executeUpdate();
+}
+
+23. Cấu hình tạo table tự động 
+Vào application.properties thêm : 
+- spring.jpa.hibernate.ddl-auto=create : Khi run chương trình JPA/Hibernate sẽ drop table cũ tạo table mới
+- none : Không làm gì cả, create-only : Chỉ tạo mới, create-drop: xong session sẽ xoá, update :Không xoá được table có update và create
+
+spring.jpa.hibernate.ddl-auto=update
+
+- Tổng kết :
++ Thêm : this.entityManager.persist(sinhvien); 
+
++ Sửa : this.entityManager.merge(sinhVien); String jpql = "UPDATE SinhVien s SET s.ten=:t";
+this.entityManager.createQuery("UPDATE SinhVien s SET s.ten=:t").setParameter("t", ten)executeUpdate();
+
++ Xoá : this.entityManager.remove(this.entityManager.find(SinhVien.class, id));
+this.entityManager.createQuery("DELETE FROM SinhVien s WHERE s.ten=:t")setParameter("t", ten).executeUpdate();
+
++ Tìm kiếm : entityManager.find(SinhVien.class, id); 
+this.entityManager.createQuery("SELECT sv FROM SinhVien sv", SinhVien.class).getResultList();
+this.entityManager.createQuery("SELECT sv FROM SinhVien sv WHERE sv.ten = :ten", SinhVien.class).setParameter("ten", ten).getResultList();
+
+24.Tìm hiểu về REST API và JSON
+- REST  (Representational State Tranfer) Là một kiến trúc phần mềm được sử dụng trong lập trình web để thiết kế các dịch vụ web dựa trên giao thức HTTP
+- API (Application Programming Interface) là tập hợp quy tắc, giao thức, công cụ cho phép hai phần mềm tương tác trao đổi dữ liệu với nhau 
+- JSON (JavaScript Object Notation) là một định dạng dữ liệu dựa trên văn bản (text-based),đại diện dữ liệu dưới dạng các cặp key-value
+JSON lồng nhau,Mảng JSON {"number":[1,2,3,4,5]}
+
+Tài nguyên (Resources): Tài nguyên là các đối tượng có thể được truy cập hoặc được thao tác trong dịch vụ web. 
+Mỗi tài nguyên được đại diện bằng một URI (Uniform Resource Identifier) duy nhất còn URL là (Uniform Resource Locator)
+• Ví dụ, trong một ứng dụng quản lý sách, tài nguyên có thể là "sách" và URI có thể là "/books".
+
+- Các nguyên tắc cơ bản của REST
++ REST sử dụng phương thức của giao thức HTTP(Hyper Text Tranfer Protocol) như POST(Create), GET(Read),PUT(Update) và DELETE(Delete) để thực hiện hoạt động với các tài nguyên trên máy chủ
+VD : Để lấy thông tin về một cuốn sách từ dịch vụ web, ta sử dụng phương thức GET trên URI "/books/{id}"
+
++ Định dạng dữ liệu (Data Formats) : Dữ liệu truyền tải giữa máy khách và máy chủ thông qua RESTful webservice 
+thường được sử dụng các định dạng dữ liệu như JSON (JavaScript Object Notation) hoặc XML (eXtensible Markup Language).
+
++ Trạng thái (Statelessness): RESTful webservice tuân thủ nguyên tắc của giao tiếp không trạng thái, 
+nghĩa là mỗi yêu cầu từ phía máy khách phải chứa đủ thông tin để máy chủ hiểu và xử lý yêu cầu, không cần lưu trạng thái trước đó.
+
+- Mã lỗi : 1xx : Thông tin , 2xx : Thành công , 3xx : Chuyển hướng , 4xx : Lỗi Client , 5xx : Lỗi Server
+
+25.Spring Rest Controller
+- @RestController = @Controller + @ResponseBody
+cho phép spring hiểu rằng lớp này xử lý yêu cầu RESTful từ client và trả về dữ liệu dạng JSON hoặc XML (Thông qua @ResponseBody)
+- @RequestMapping dùng để ánh xạ các yêu cầu HTTP tới các phương thức trong một Controller, đặt được ở cả cấp lớp(class level) và phương thức(method level) trong controller
+Đặt ở class level, nó xác định tiền tố URL cho tất cả phương thức trong Controller
+
+- @RequestMapping cho tất cả ngoài ra riêng cho từng Mapping có @GetMapping,@PostMapping,@PutMapping,@DeleteMapping,@PatchMapping
+- @PathVariable : Xác định biến trong URL 
+- @RequestParam : Xác định tham số truy vấn trong URL 
+- @RequestBody : Xác định đối tượng gửi kèm trong phần thân 
+- @ResponseBody : Xác định dữ liệu trả về từ phương thức xử lí được gửi về phần thân 
+- @RestControllerAdvice : Xác định class chứa hàm xử lý tương tự Controller Advice cho các RestController 
+- @ExceptionHandler : Xác định phương thức xử lý cho các ngoại lệ trong RestController 
+
+@RestController
+@RequestMapping("/api") 
+public class HelloWorldController {
+    // localhost:8080/api/hello
+    @GetMapping("/hello")
+    public String helloWorld() {
+        return "Hello, world!";
+    }
+    // localhost:8080/api/hello/spanish
+    @GetMapping("/hello/spanish")
+        public String helloWorldInSpanish() {
+        return "¡Hola, mundo!";
+    }
+}
+
+26.Java POJO
+- Java POJO (Plain Old Java Object) là một lớp Java thuần túy, không có các yêu cầu đặc biệt về cú pháp hoặc quy ước, cần có constructor,get,set đầy đủ
+- Trong Spring chuyển đổi giữa JSON và java POJO được thực hiện thông qua thư viện Jackson hỗ trợ xử lý json 
+{
+    "id": 1,
+    "ten": "Nguyễn Văn A",
+    "tuoi": 20,
+    "nganhHoc": "Khoa học máy tính",
+    "diemTB": 3.8
+}
+<==>
+public class Student {
+    public int id;
+    public String ten; public int tuoi;
+    public String nganhHoc;
+    public double diemTB;
+    // constructor, get,set đầy đủ 
+}
+
+27. Path Variable
+- Trích xuất thông tin trong URL và xử lý nó như một tham số trong RestController 
+
+@RestController
+@RequestMapping("/api/students")
+public class StudentController {
+    @GetMapping("/{id}")
+    public ResponseEntity<Student> getStudentById (@PathVariable int id) {
+        // Xử lý yêu cầu để lấy thông tin sinh viên với ID tương ứng
+        // Sử dụng ID được truyền vào phương thức như một Path Variable
+    }
+}
+VD :
+@GetMapping("/{id1}/{id2}/{tmp}")
+public SinhVien getSinhVienById (@PathVariable int id1,@PathVariable int id2,@PathVariable int tmp) {
+    if(tmp == 1) {
+        for (SinhVien sv : danhSach) {
+            if (sv.getId() == id1) {
+                return sv;
+            }
+        }
+    }else{
+        for (SinhVien sv : danhSach) {
+            if (sv.getId() == id2) {
+                return sv;
+            }
+        }
+    }
+    return null;
+}
+
+@GetMapping("/index/{index}")
+public SinhVien getSinhVien (@PathVariable int index) {
+    return danhSach.get(index);
+}
+
+28. @ExceptionHandler
+Tạo các lớp response error
+Tạo các lớp ngoại lệ
+Quăng ra các ngoại lệ nếu gặp lỗi
+
+public class ErrorResponse {
+    private int status;
+    private String message;
+    private long timestamp;
+
+    public ErrorResponse(int status, String message) {
+        this.status = status;
+        this.message = message;
+        this.timestamp = System.currentTimeMillis();
+    }
+    public int getStatus() {
+        return status;
+    }
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    
+}
+
+- @ControllerAdvice : Client -> Controller Advice (Giống filter lọc) -> Rest Controller(Trả về kq)
+Dùng để xác định 1 bean đóng vai trò là một global exception handler. Cung cấp cơ chế tập trung xử lý exception 
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler (NullPointerException.class)
+    public ModelAndView handleNullPointerException (HttpServletRequest req){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("exception", ex); 
+        modelAndView.addObject("url", request.getRequestURL());
+        modelAndView.setViewName("error");
+        return modelAndView;
+    }
+}
+
+29. Thực hành xây dựng CRUD API 
+
+GET         /api/students             Lấy danh sách tất cả sinh viên
+GET         /api/students/{id}        Lấy thông tin chi tiết của một sinh viên dựa trên ID 
+POST        /api/students             Thêm một sinh viên mới
+PUT         /api/students/{id}        Cập nhật thông tin của một sinh viên dựa trên ID
+DELETE      /api/students/{id}        Xóa một sinh viên dựa trên ID
+
+Bc1 : Vào start.spring.io tạo dự án với dependency web,devtools,jpa,mysql
+Bc2 : Sử dụng Spring Data JPA để tương tác với cơ sở dữ liệu
+Cấu hình kết nối với cơ sở dữ liệu
+Tạo Entity
+Tạo Interface: StudentDAO với các phương thức: find, findAll, add, update, delete
+Tạo Repository: StudentDAOImpl và hiện thực các phương thức
+Tạo RestController sử dụng DAO
+
+- Service Facade Design Pattern : 
+Nó hoạt động như một điểm vào duy nhất, che giấu sự phức tạp của hệ thống con nằm phía dưới và cung cấp một giao diện thống nhất để truy cập vào nhiều dịch vụ.
+Tạo StudentService nằm trung gian giữa StudentController và StudentDAO 
+
+- @Service trước class chỉ định rằng lớp đó là một thành phần dịch vụ
+
+- @PostMapping đi kèm @RequestBody(nhận json để parse rồi đẩy lên database)
+@PostMapping
+public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+    student = studentService.addStudent(student);
+    return ResponseEntity.status(HttpStatus.CREATED).body(student);
+}
+- Lưu ý : Khi viết POST để add bằng JSON và nhận dữ liệu về thì các biến là trường của đối tượng Java POJO chứ ko phải tên cột bảng database
+{
+    "lastName": "Nguyen",
+    "firstName":"Hiep",
+    "email":"tcmytt@gmail.com"
+}
+
+30.Spring DATA JPA (Không cần viết DAO trong dao nữa)
+- JpaRepository là một giao diện cung cấp sẵn trong Spring Data JPA framework. 
+Nó là một tập hợp các phương thức tiêu chuẩn để thực hiện các thao tác cơ bản trên các đối tượng trong cơ sở dữ liệu C-R-U-D
+Sử dụng generics để xác định kiểu dữ liệu của đối tượng Student và khoá chính là Long. 
+JPA cung cấp sẵn save(), findAll(), findById(), deleteById() ,...
+https://docs.spring.io/spring-data/data-jpa/docs/current/api/org/springframework/data/jpa/repository/JpaRepository.html
+
+@Repository
+public interface StudentRepository extends JpaRepository<Student,Long> {
+    // Các phương thức thức tuỳ chỉnh khác có thể được khai báo làm tăng tính linh hoạt,mở rộng ngoài các hàm JPA sẵn 
+    List<Student> findByLastName(String lastName) ;
+    List<Student> findByFirstNameAndLastName(String lastName,String firstName) ;
+}
+
+- Tóm lại Không cần viết DAO mà thay vào đó là chỉ cần tạo interface implement lại JpaRepository<Class,Key> là có sẵn các phương thức CRUD
+- Chỉ cần viết đúng quy tắc đặt tên nó tự sinh code không cần viết lại
+- Muốn mở rộng các phương thức mới cần lưu ý các điều sau :
++ Tên phương thức thường bắt đầu với find,get,query tiếp đó là By + tên thuộc tính đối tượng, nhiều đối tượng + And, Or, In, Notin, GreaterThan, LessThan
+kết hợp điều kiện. 
++ Tên các trường dữ liệu bắt đầu bằng chữ in hoa()
++ Truy vấn phức tạp cần thêm @Query để viết HQL hoặc SQL 
++ Kiểu trả về của JPA là List, Set, Optional, Page, Slice,.. 
+Nếu bạn chỉ muốn lấy một đối tượng duy nhất, bạn có thể sử dụng kiểu trả về Optional<T> để đảm bảo rằng nó không trả về giá trị null.
++ 
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    // Truy vấn dựa trên firstName
+    List<User> findByFirstName(String firstName);
+
+    // Truy vấn dựa trên firstName và lastName
+    List<User> findByFirstNameAndLastName(String firstName, String lastName)
+    
+    II Truy vấn dựa trên firstName và tuổi
+    List<User> findByFirstNameAndAge (String firstName, int age);
+
+    I/ Truy vấn dựa trên tuổi lớn hơn
+    List<User> findByAgeGreaterThan(int age);
+
+    // Truy vấn dựa trên email, trả về Optional 
+    Optional<User> findByEmail(String email);
+
+    // Truy vấn phức tạp sử dụng @Query, tên đặt dài nhưng do có @Query nên nó ko quan trọng nữa, nó vẫn query y như lệnh
+    @Query("SELECT u FROM User u WHERE u.firstName LIKE %?1% AND u.age >=?2") 
+    List<User> findByFirstNameContainingAndAgeGreaterThanOrEqual(String firstName, int age);
+}
+
+31. Spring DATA Rest (không cần viết controller trong rest nữa)
+Spring Data REST là phần mở rộng của Spring Data JPA, cung cấp cách dễ dàng tạo RESTful API từ các repository JPA mà không cần viết thêm mã điều khiển (controller) tùy chỉnh. 
+Nó giúp tự động tạo các điểm cuối RESTful cho các thực thể của bạn và thực hiện các thao tác CRUD cơ bản.(GET,POST,PUSH,DELETE)
+
+- @RepositoryRestResource(path="students") viết trước StudentRepository
+
+Cần thêm : 
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-rest</artifactId>
+</dependency>
+
+- Bình thường là tạo interface StudentService rồi tạo class StudentServiceImpl viết lại các hàm, rồi mới vào rest viết StudentController viết api 
+- Bây h không cần StudentService, StudentServiceImpl và StudentController 
+mà chỉ cần data-rest, entity(bảng map dữ liệu Student) và StudentRepository, trong StudentRepository cần @RepositoryRestResource(path="students") vậy là xong
+- Có thể cấu hình thêm đường dẫn : spring.data.rest.base-path:[Tên đường dẫn]
+VD: spring.data.rest.base-path:/api
+khi chạy /students nó sẽ trả về định dạng của Spring HATEOAS
+- Cấu hình phân trang paging : 
+spring.data.pageable.default-page-size=5
+spring.data.pageable.max-page-size=5
++ Chỉ lấy 5 student tính từ thằng số 0
+http/localhost:8080/api/students//api/students?page=0&size=5
++ Sắp xếp theo firstName
+http/localhost:8080/api/students//api/students?sort=firstName
+http/localhost:8080/api/students//api/students?sort=firstName,desc
+
+GET         /api/students             Lấy danh sách tất cả sinh viên
+GET         /api/students/{id}        Lấy thông tin chi tiết của một sinh viên dựa trên ID 
+POST        /api/students             Thêm một sinh viên mới
+PUT         /api/students/{id}        Cập nhật thông tin của một sinh viên dựa trên ID
+DELETE      /api/students/{id}        Xóa một sinh viên dựa trên ID
+
+// Truy vấn bằng firstName
+public List<Student> findByFirstName(String firstName);
+
+// Truy vấn bằng firstName và lastName
+public List<Student> findByFirstNameAndLastName(String firstName, String lastName);
+
+// Truy vấn các students có firstName khác với giá trị tìm kiếm
+//public List<Student> findByFirstNameNot(String firstName);
+
+// Truy vấn các students có firstName khác với giá trị tìm kiếm
+@Query("SELECT s FROM Student s WHERE s.firstName<>?1")
+public List<Student> findByFirstNameNot(String firstName);
+
+32. Spring Security 
+- Authentication (Xác thực) Xác định danh tính của người dùng bằng cách kiểm tra thông tin đăng nhập như tên người dùng và mật khẩu
+Hoặc thông qua các phương thức xác thực bổ sung như Single Sign-On (SSO) và OAuth
+- Authorization (Ủy quyền) Kiểm soát quyền truy cập của người dùng vào các phần của ứng dụng. 
+Bạn có thể xác định các vai trò (roles) và phân quyền (permissions) cho từng người dùng hoặc nhóm người dùng, sau đó sử dụng chúng để giới hạn quyền truy cập vào các tài nguyên.
+- Spring Security hỗ trợ nhiều phương thức xác thực, cho phép bạn tích hợp với hệ thống xác thực của bên thứ ba như OAuth, LDAP, CAS và nhiều hơn nữa.
+
+<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+
+Tài khoản mặc định : user 
+Mật khẩu : Trong terminal 
+
+- Khi cấu hình trong application.properties thì chỉ dc 1 user nên cần cấu hình user ảo nếu muốn có nhiều
+spring.security.user.name=a
+spring.security.user.password=1
+
+- Các cách lưu trữ password :
++ Văn bản thô(noop) : test123456
++ Mã hoá(bcript) : ------------
+
+- InMemoryUserDetailsManager Là một lớp mà Spring Security cung cấp để xử lý việc quản lý người dùng và cung cấp thông tin về người dùng (username, password, roles) từ bộ nhớ.
+Dùng trong môi trường phát triển còn thành phẩm lưu trong database 
+
+- Dùng @Configuration để đánh dấu 1 lớp là lớp cấu hình , @bean đánh dấu 1 phương thức là bean 
+@Configuration
+public class UserConfiguration {
+    @Bean
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
+        UserDetails hiep = User.withDefaultPasswordEncoder()
+                .username("hiep")
+                .password("1")
+                .roles("admin")
+                .build();
+        UserDetails tung = User.withUsername("tung")
+                .password("{noop}2")
+                .roles("teacher")
+                .build();
+        UserDetails duc = User.withUsername("duc")
+                .password("{noop}3")
+                .roles("manager")
+                .build();
+        return new InMemoryUserDetailsManager(hiep,tung,duc);
+    }
+}
+
+33. Phân quyền truy xuất theo role (Vai trò)
+- Viết trong class UserConfiguration, lưu ý role nên viết HOA 
+@Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests(authorizeRequests ->
+            authorizeRequests
+                    .requestMatchers (HttpMethod. GET, "/api/students/**").hasAnyRole ( "TEACHER", "ADMIN")
+                    .requestMatchers (HttpMethod. POST, "/api/students").hasAnyRole ("MANAGER", "ADMIN")
+                    .requestMatchers (HttpMethod. PUT, "/api/students").hasAnyRole ( "MANAGER", "ADMIN")
+                    .requestMatchers(HttpMethod.DELETE, "/api/students/**").hasRole("ADMIN")
+            );
+    http.httpBasic(Customizer.withDefaults());
+    http.csrf(csrf->csrf.disable());
+    //cross site request forgery : Kiem tra xem co phai la dung trang web gui len khong, ko can thiet trong restAPI
+    return http.build();
+}
+
+- Trong database tạo 2 bảng này để spring tự phân biệt : 
+CREATE TABLE users (
+username VARCHAR(50) PRIMARY KEY, 
+`PASSWORD` VARCHAR(100) NOT NULL, 
+enabled TINYINT NOT NULL
+);
+
+CREATE TABLE authorities (
+username VARCHAR (50) NOT NULL,
+authority VARCHAR (50) NOT NULL,
+UNIQUE KEY (username, authority),
+CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES users (username)
+);
+
+Lưu ý : Nhập password ko mã hoá thì cần thêm {noop} ví dụ : {noop}123456
+Nhập role cần theo format ví dụ : ROLE_MANAGER
+
+- Thay inMemoryUserDetailsManager bằng jdbcUserDetailsManager, Memory chỉ dùng cho môi trường phát triển, jdbc lấy tài khoản mật khẩu từ database
+Cần đóng code inMemoryUserDetailsManager mới chạy dc
+@Bean
+@Autowired
+public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource){
+    return new JdbcUserDetailsManager(dataSource);
+}
+
++ Để dùng dataSource cần cấu hình trong application.properties , VD
+spring.datasource.url=jdbc:mysql://localhost:3306/student_ms
+spring.datasource.username=spring
+spring.datasource.password=spring
+
+34. Bcrypt mã hoá mật khẩu ( https://bcrypt-generator.com/ )
+BCrypt sử dụng salt(muối) (một chuỗi ngẫu nhiên) kết hợp với mật khẩu trước khi tiến hành mã hóa  (băm hash). 
+Việc này giúp ngăn chặn tấn công bằng bảng màu (rainbow table), một phương pháp tấn công băm ngược thông qua việc so sánh các giá trị băm đã biết trước với các giá trị băm trong cơ sở dữ liệu.
+Tuy mật khẩu giống nhau nhưng salt khác nhau đưa kết quả khác nhau
+
+- VD Kết quả mã hoá lưu trữ dạng : $2a$12$abcd1234xyz7890
+Trong đó : 
+Plain text:  mypassword
+"$2a$": tiền tố của BCrypt, giúp phân biệt thuật toán mã hóa mật khẩu.
+"12$": Đây là cost factor (yếu tố chi phí) ,xác định số vòng lặp được sử dụng trong quá trình kéo dãn mật khẩu. 
+Trong ví dụ này, cost factor là 12, nghĩa là quá trình mã hóa sẽ được thực hiện 2^12 lần.
+"abcd1234": Đây là salt, chuỗi ngẫu nhiên được thêm vào trước mật khẩu để gia tăng tính ngẫu nhiên và độ phức tạp của mật khẩu mã hóa.
+"xyz7890": Đây là phần mã hóa của mật khẩu "mypassword" sau khi được kết hợp với salt và thực hiện quá trình mã hóa.
+
+length >= 68
+- Lưu password dưới cơ sở dữ liệu mã hoá bằng bcrypt
+{bcrypt}$2a$12$pZfjFcevspZ/KS6JxtwSB.Dm1hL9vjMJ2EWCPmuWBeBFeTt4BgbT6 
+{bcrypt}$2a$12$EWeYwB3NnGtfH3pj08UtN.hiKbUi1SSZwEaqL3NirNmASH/iQ2Km 
+{bcrypt}$2a$12$QGvEA/125hUEnOnR9HjCBeKNSMdgLQKtzi15.PtkV3AP6u044Fjy.
+
+35. Tuỳ chỉnh table user
+VD tạo 2 bảng khác bảng mặc định theo yêu cầu của spring
+CREATE TABLE accounts (
+    id VARCHAR(50) PRIMARY KEY,
+    pw VARCHAR(100) NOT NULL,
+    active TINYINT NOT NULL
+);
+
+CREATE TABLE roles (
+    id VARCHAR(50) NOT NULL,
+    role VARCHAR(50) NOT NULL,
+    UNIQUE KEY (id, role),
+    CONSTRAINT fk_id FOREIGN KEY (id) REFERENCES accounts (id)
+);
+
+@Bean
+@Autowired
+public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource){
+    JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager();
+    userDetailsManager.setUsersByUsernameQuery("select id,pw,active from accounts where id=?");
+    userDetailsManager.setAuthoritiesByUsernameQuery("select id,role from roles where id=?");
+    return userDetailsManager;
+}
+
+36. Giới thiệu về thymeleaf
+https://www.thymeleaf.org/documentation.html
+Thymeleaf expression là một loại biểu thức sử dụng trong Thymeleaf templates để xử lý và hiển thị dữ liệu động từ các đối tượng Java vào các template HTML.
+Thymeleaf expression thường được đặt trong các thuộc tính của các thẻ HTML, hoặc trong nội dung của các thẻ đặc biệt như th:block, th:text, th:if, th:each, v.v. 
+Các biểu thức Thymeleaf bắt đầu bằng tiền tố th:.
+
+- Truyền dữ liệu vào từ controller
+@Controller
+public class HomeController {
+    @GetMapping("/HienThi/{x}")
+    public String home(int x,Model model) {
+        model.addAttribute("name", x);
+        return "index"; // Tên template HTML
+    }
+}
+
++ File index.html được đặt ở trong java/resource/templates , style.css và script.js đặt trong static/css hay static/js
+<html lang="es" xmlns:th="http://www.thymeleaf.com">
+<head>
+<link th:href="@{css/style.css}" rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<h1>BẢNG CỬU CHƯƠNG - <span th:text="${number}">0</span></h1> <!-- chọn 1 trong 2 -->
+<table>
+    <tr th:each="i : ${#numbers.sequence (1,10)}">
+        <td th:text="${number}"></td>
+        <td>x</td>
+        <td th:text="${i}"></td>
+        <td>=</td>
+        <td th:text="${number*i}"></td>
+    </tr>
+</table>
+<script th:src="@{js/script.js}" src="/js/script.js"></script>
+
+</html>
+
+Trong index.html
+- Truyền biến
+<p>Hello, <span th:text="${name}">Guest</span></p>
+Kết quả: Nếu name="john" thì là Hello,john nếu không thì là Hello,Guest
+
+<span th:text="${isAdmin} ? 'Admin' : 'User'">User</span>
+
+<a th:href="@{/products/{id} (id=${productId})}">Product Details</a>
+KQ : <a href="/products/123">Product Details</a>
+
+- Phân fragment
+<div th:fragment="footer">
+    <p>Footer content goes here.</p>
+</div>
+
+- Điều kiện
+<th:if test="điều kiện">
+    <div>Thực thi khi điều kiện đúng</div>
+</th:if>
+
+<th:unless test="điều kiện">
+    <div>Thực thi khi điều kiện sai</div>
+</th:unless>
+
+<th:switch test="biến">
+    <th:case value="giá trị 1">Thực thi khi biến bằng giá trị 1</th:case>
+    <th:case value="giá trị 2">Thực thi khi biến bằng giá trị 2</th:case>
+    <th:default>Thực thi khi không có giá trị nào khớp</th:default>
+</th:switch>
+
+- Vòng lặp
+<ul>
+    <li th:each="product : ${products}">
+        <p th:if="${#contains(product.name, 'áo thun')}">
+            ${product.name}
+        </p>
+    </li>
+</ul>
+
+- PlaceHolder
+<input type="text" th:placeholder="${#if(#logged in, 'Chào ' + ${user.name}, 'Đăng nhập để sử dụng')}" />
+
+- Tiền xử lý :
+<div th:with="result=${10 + 20}"> 
+    <p th:text="${result}"></p>
+</div>
+
+- Nhúng mã JavaScript
+<script th:inline="javascript">
+    var username = /*[[${user.username}]]*/ 'Guest'; console.log('Logged in as + username);
+</script>
+
+- Các hàm :
+#contains(string, substring): Kiểm tra xem chuỗi có chứa chuỗi con hay không.
+#startsWith(string, prefix): Kiểm tra xem chuỗi có bắt đầu bằng tiền tố hay không.
+#endsWith(string, suffix): Kiểm tra xem chuỗi có kết thúc bằng hậu tố hay không.
+#equals(object1, object2): So sánh hai đối tượng xem có bằng nhau hay không.
+#notEquals(object1, object2): So sánh hai đối tượng xem có khác nhau hay không.
+#each(collection, variable)
+
+<p th:if="${#contains(username, 'admin')}">Bạn là quản trị viên.</p>
+
+37.Spring MVC
+- Model Đại diện cho dữ liệu và quản lý các logic liên quan đến dữ liệu. Model là nơi thao tác với cơ sở dữ liệu, xử lý và lưu trữ dữ liệu của ứng dụng.
+VD: public class Product {
+    private Long id;
+    private string name;
+    private double price;
+}
+
+- View Là phần giao diện người dùng, hiển thị thông tin cho người dùng và tương tác với họ. View không xử lý dữ liệu, chỉ đơn thuần hiển thị thông tin được cung cấp từ Model.
+VD: file index.html chứa trong templates
+<!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product List</title>
+</head>
+<body>
+    <h1>Product List</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+            <tr th:each="product : ${products}"> 
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td> 
+            <td th:text="${product.price}"></td>
+        </tr>
+    </table>
+</body>
+</html>
+
+- Controller Là cầu nối giữa Model và View. Nó nhận các yêu cầu từ người dùng thông qua View, xử lý các yêu cầu này bằng cách tương tác với Model và sau đó cập nhật lại View dựa trên dữ liệu đã xử lý.
+VD:
+@Controller
+public class ProductController {
+    private List<Product> products = new ArrayList<>();
+
+    @GetMapping("/products")
+    public String showProductList (Model model) {
+        // Giả sử có một danh sách sản phẩm đã được lấy từ cơ sở dữ liệu 
+        products.add(new Product(1L, "Laptop", 1000.0));
+        products.add(new Product(2L, "Điện thoại", 500.0)); 
+        products.add(new Product (3L, "Tivi", 800.0));
+
+        model.addAttribute("products", products);
+
+        // Trả về tên của View, ở đây là "productList"
+        return "productList"; 
+    }
+}
+
++ Lưu ý @Controller trả về tên file html trong static 
+còn @RestController làm việc với restAPI trả về DATA dạng json hoặc xml
+
+- Các thành phần chính của Spring MVC :
++ DispatcherServlet: Là một Servlet đặc biệt trong Spring MVC, nó là trung tâm điều khiển của toàn bộ ứng dụng. 
+DispatcherServlet nhận yêu cầu từ người dùng và gửi chúng tới Controller phù hợp để xử lý.
+
++ Controller: Là thành phần xử lý logic trong ứng dụng, nhận yêu cầu từ DispatcherServlet, tương tác với Model để lấy hoặc cập nhật dữ liệu, 
+sau đó trả về dữ liệu cho DispatcherServlet để hiển thị thông tin lên View.
+
++ Model: Đại diện cho dữ liệu của ứng dụng, chứa các lớp POJO (Plain Old Java Object) để lưu trữ thông tin. 
+Model cũng chịu trách nhiệm xử lý logic liên quan đến dữ liệu.
+
++ View: Là giao diện người dùng, hiển thị dữ liệu từ Model cho người dùng. Spring hỗ trợ nhiều công nghệ View khác nhau như JSP, Thymeleaf, Freemarker, ...
+
+- Đã thực hành các dự án ở trong folder java nhấn lại vào để nhớ 
+
+38. Primary Key Và Foreign Key 
+Khoá chính là unique trong bảng, khoá ngoại là khoá tham chiếu đến khoá chính của bảng khác
+Khoá chính đánh dấu @Id
+VD: 
+@Entity 
+public class Teacher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+}
+
+@Entity
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+
+    @ManyToOne
+    @JoinColumn(name = "teacher id")
+    private Teacher teacher;  // Khoá ngoại
+}
+
+39. Các loại quan hệ 
++ One-To-One : Một bản ghi bản A chỉ dc liên kết với 1 bản ghi bản B vd 1 vợ 1 chồng
+Dùng @OneToOne hoặc @JoinColumn
+VD: 
+@Entity 
+public class Teacher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+
+    @OneToOne(mappedBy = "teacher", cascade = CascadeTYPE.ALL)
+    private TeacherDetail teacherDetail;  // Khoá ngoại
+}
+
+@Entity
+public class TeacherDetail {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+
+    @OneToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;  // Khoá ngoại
+}
+
++ One-To-Many : Một bản ghi bên bảng A có thể liên kết với nhiều bản ghi bên bảng B nhưng mỗi bản ghi bên bảng B chỉ liên kết với 1 bản ghi bên bảng A
+Dùng @OneToMany, @ManyToMany hoặc @JoinColumn , 1 Sinh viên tham gia Nhiều môn học trong bảng môn học 
+VD: 
+@Entity 
+public class Teacher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+
+    @OneToMany(mappedBy = "teacher")
+    private List<Course> coureses;  // Khoá ngoại
+}
+
+@Entity
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+
+    @ManyToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;  // Khoá ngoại
+}
+
++ Many-To-One : Nhiều bản ghi trong B liên kết với 1 bản ghi trong A 
+
++ Many-To-Many : Liên kết giữa 2 thực thể , 1 sinh viên đăng kí nhiều khoá học, 1 khoá học có nhiều sinh viên 
+- Phải dùng table phụ 
+VD: 
+@Entity 
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+
+    @ManyToMany(cascade = CascadeTYPE.ALL)
+    @JoinTable(name = "student_course", 
+            joinColumn = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<Course> coureses;  
+}
+
+@Entity
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+
+    @ManyToMany(mappedBy = "courses")
+    private Teacher teacher;  // Khoá ngoại
+}
+
+40. Directional
+- Xác định tính chất của mối quan hệ giữa 2 entity trong mô hình, có 2 loại Directional trong hibernate là Unidirectional(uni) và Bidirectional(Bi) 
+- Mối quan hệ Unidirectional là mối quan hệ 1 chiều giữa 2 entity, chỉ có 1 thực thể liên quan đến thực thể khác không có sự tham chiếu ngược lại 
+VD: TeacherDetail có liên quan teacher nhưng không có ngược lại
+@Entity 
+public class Teacher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+}
+
+@Entity
+public class TeacherDetail {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+
+    @OneToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;  // Khoá ngoại
+}
+
+- Mối quan hệ Bidirectional là mối quan hệ 2 chiều giữa 2 entity, 2 thực thể liên quan đến thực thể khác và có sự tham chiếu ngược lại 
+VD: Bảng TeacherDetail sẽ có cột teacher_id chứa id của Bảng Teacher, Bảng Teacher không có chứa id bảng TeacherDetail (Đáng ra là phải ngược lại)
+@Entity 
+public class Teacher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+
+    @OneToOne(mappedBy = "teacher", cascade = CascadeTYPE.ALL)
+    private TeacherDetail teacherDetail;  // Khoá ngoại
+}
+
+@Entity
+public class TeacherDetail {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;  // Khoá chính
+
+    @OneToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;  // Khoá ngoại
+}
+
+41. Các loại Cascade(Điều khiển tự động cập nhập)
+- Là tính năng tự động lan truyền các thay đổi giữa các mối quan hệ Entity khi thực hiện các thao tác CRUD trên thực thể cha.
++ cascade = CascadeTYPE.ALL tất cả các thao tác CRUD trên thực thể cha sẽ lan truyền xuống thực thể con 
++ cascade = CascadeTYPE.PERSIST(hay CascadeTYPE.SAVE_UPDATE) cho phép tạo mới trên thực thể cha và tự động lan truyền xuống thực thể con 
++ cascade = CascadeTYPE.MERGE : Cập nhập từ cha xuống con liên quan
++ cascade = CascadeTYPE.REMOVE(CascadeTYPE.DELETE) : Xoá từ cha xuống con liên quan
++ cascade = CascadeTYPE.REFRESH : làm mới dự liệu từ cha xuống con liên quan
++ cascade = {CascadeTYPE.PERSIST, CascadeTYPE.REFRESH, CascadeTYPE.MERGE}
+
+42. Các loại FeatchType
+@OneToOne(mappedBy = "teacher", cascade = CascadeTYPE.ALL, fetch = FeatchType.EAGER)
+- FetchType.EAGER (Truy vấn tức thì) cho phép tải thông tin liên quan ngay lập tức khi truy vấn 
+Ưu điểm : Nhanh 
+Nhược điểm : Tải dư thừa không cần thiết, nếu nhiều gây mất thời gian 
+
+@OneToMany(mappedBy = "teacher", fetch = FeatchType.LAZY)
+private List<Course> coureses;  
+- FetchType.LAZY (Truy vấn lười biếng) chỉ truy xuất khi dùng đến 
+
+43. Vòng đời của Entity 
+- Transient State : Không liên kết, mới tạo ra qua từ khoá new , không dc quản lý bởi hibernate
+- Persistent State : Được quản lý bởi Hibernate qua phiên Session, vào trạng thái này khi gọi session.save() hoặc session.saveOrUpdate();
+Bất kì thay đổi nào cũng được đồng bộ khi session kết thúc
+- Detached State : Từng được quản lý bởi Hibernate nhưng phiên session đã kết thúc. Cần dùng session.merger() hoặc session.update() để gắn lại vào quản lý 
+- Remove State : Từng được quản lý và bị gọi session.delete(), xoá khi kết thúc phiên
+
+- Dùng @Transient trước thuộc tính trong bảng @Entity để thuộc tính đó không đưa lên trên csdl 
+- Khi tạo bảng tạo hàm tạo bỏ cột id do id tăng dần nếu dùng IDENTIFIED
+- Khi chạy dự khởi tạo lần đầu dùng spring.jpa.hibernate.ddl-auto=update sau khi chạy xong xuôi nên đóng lại trong file setting
+- mappedBy là tên của csdl chữ cái đầu viết thường, thằng nào đẩy xuống trước thì mappedBy thằng đó
+
+44. Aspect Oriented Programming (AOP)
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+
+Trong lập trình phần mềm, chúng ta thường phải xử lý những chức năng chung và quy tắc không chính trị (cross-cutting concerns) như ghi log, xử lý ngoại lệ, kiểm tra quyền truy cập, đo thời gian thực hiện, v.v. 
+Những chức năng này phải được áp dụng và sử dụng ở nhiều nơi trong ứng dụng.
+Aspect-Oriented Programming (AOP) là một phương pháp lập trình mở rộng từ lập trình hướng đối tượng (OOP) nhằm giải quyết vấn đề của các chức năng không chính trị.
+AOP tách biệt các quy tắc chung và chức năng không chính trị ra khỏi mã chương trình chính, tạo thành các "aspect" độc lập.
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect; 
+import org.aspectj.lang.annotation.Before; 
+import org.springframework.stereotype.Component;
+
+@Aspect
+@Component
+public class LoggingAspect {
+    @Before ("execution (* com.example.dao.StudentDAOImpl.saveStudent(..)) && args(student)") 
+    public void logBeforeSaveStudent (JoinPoint joinPoint, Student student) {
+        System.out.println("Saving Student: + student.getName() + ", Age: + student.getAge());
+    }
+}
+
+Aspect là một module độc lập trong ứng dụng thực hiện một chức năng chung như ghi log, xử lý ngoại lệ, v.v.
+Aspect không thuộc về một phần cụ thể nào trong chương trình, mà nó được "ghép vào" các đối tượng của ứng dụng khi cần thiết.
+
+45. Các loại Advice trong spring AOP 
+Trong Spring AOP, Advice là một loại khía cạnh (aspect) trong lập trình hướng khía cạnh (Aspect-Oriented Programming). 
+Nó đại diện cho các chức năng không chính trị mà bạn muốn thêm vào các điểm cắt (join points) trong mã chương trình của bạn. 
+Advice chứa các hành động cụ thể mà bạn muốn thực hiện tại các điểm cắt đó.
+
+- Before Advice: Được thực thi trước khi phương thức mục tiêu được gọi. Dùng để thực hiện các nhiệm vụ như kiểm tra điều kiện tiên quyết hoặc ghi log.
+@Before("execution(* com.example.service.*.*(..))")
+public void beforeAdvice(JoinPoint joinPoint) {
+    System.out.println("Before method: " + joinPoint.getSignature());
+}
+
+- After (Finally) Advice: Được thực thi sau khi phương thức mục tiêu hoàn thành, bất kể phương thức đó có ném ra ngoại lệ hay không. 
+Dùng để thực hiện các nhiệm vụ như giải phóng tài nguyên.
+@After("execution(* com.example.service.*.*(..))")
+public void afterAdvice(JoinPoint joinPoint) {
+    System.out.println("After method: " + joinPoint.getSignature());
+}
+
+- After Returning Advice: Được thực thi sau khi phương thức mục tiêu trả về thành công. 
+Dùng để thực hiện các nhiệm vụ như ghi log kết quả trả về hoặc thay đổi kết quả.
+@AfterReturning(pointcut = "execution(* com.example.service.*.*(..))", returning = "result")
+public void afterReturningAdvice(JoinPoint joinPoint, Object result) {
+    System.out.println("After Returning method: " + joinPoint.getSignature());
+    System.out.println("Result: " + result);
+}
+
+- After Throwing Advice: Được thực thi nếu phương thức mục tiêu ném ra ngoại lệ. Dùng để xử lý ngoại lệ hoặc ghi log lỗi.
+@AfterThrowing(pointcut = "execution(* com.example.service.*.*(..))", throwing = "error")
+public void afterThrowingAdvice(JoinPoint joinPoint, Throwable error) {
+    System.out.println("After Throwing method: " + joinPoint.getSignature());
+    System.out.println("Exception: " + error);
+}
+
+- Around Advice: Cho phép bao quanh phương thức mục tiêu, cung cấp khả năng kiểm soát trước và sau khi phương thức đó được thực thi. 
+Đây là loại advice mạnh mẽ nhất vì nó có thể kiểm soát hoàn toàn luồng thực thi.
+@Around("execution(* com.example.service.*.*(..))")
+public Object aroundAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    System.out.println("Before method: " + proceedingJoinPoint.getSignature());
+    Object result = proceedingJoinPoint.proceed();
+    System.out.println("After method: " + proceedingJoinPoint.getSignature());
+    return result;
+}
+
+46. Pointcut Expression
+Pointcut Expression là biểu thức hoặc mẫu mà bạn sử dụng để chỉ định các điểm cắt (join points) trong mã chương trình mà Advice sẽ được áp dụng. 
+Spring hỗ trợ các Pointcut Expression sử dụng cú pháp AspectJ, cho phép bạn xác định linh hoạt các điểm cắt dựa trên tên phương thức, kiểu trả về, tham số, tên lớp, v.v.
+
+execution (modifiers-pattern?
+return-type-pattern
+declaring-type-pattern?
+method-name-pattern (param-pattern) throws-pattern?)
+
+modifiers-pattern: Định nghĩa các thuộc tính của phương thức, ví dụ: public, protected, private, static, final, v.v.
+return-type-pattern: Định nghĩa kiểu trả về của phương thức, ví dụ: void, int, String, * (bất kỳ kiểu nào).
+declaring-type-pattern: Định nghĩa tên lớp chứa phương thức, ví dụ: com.example.service.StudentService.
+method-name-pattern: Định nghĩa tên phương thức, ví dụ: saveStudent, get*, *.
+param-pattern: Định nghĩa các tham số của phương thức, ví dụ: (), (int), (String, int), (com.example.entity.Student).
+throws-pattern: Định nghĩa các ngoại lệ mà phương thức có thể ném ra, ví dụ: throws IOException, throws *.
+
+(..) cho bất kỳ tham số nào, * cho tất cả kiểu trả về 
+VD: @After("execution (* vn.titv.spring.aop.service.CalculatorService.add(..))")
+
+- TH áp dụng tất cả các phương thức cho một gói cụ thể 
+@Pointcut ("execution (* com.example.service.*.* ( . . ) ) ") 
+public void allMethodsInServicePackage() {
+    // to do
+}
+
+- TH áp dụng tất cả các phương thức có tên bắt đầu bằng get 
+@Pointcut ("execution (* get* () ) ") 
+public void allGetterMethods () {
+    // to do
+}
+
+- TH áp dụng cho tất cả các phương thức có kiểu trả về là void
+@Pointcut ("execution (public void com.example.dao.*.* ( . . )) ")
+public void allVoidMethodsInDAOPackage () {
+    // to do 
+}
+
+- TH áp dụng cho một phương thức cụ thể trong một lớp cụ thể
+@Pointcut ("execution (public void service.StudentService.saveStudent (com.example.entity.Student))") 
+public void saveStudent Pointcut () {
+    // to do
+}
+
+- TH áp dụng cho tất cả các phương thức có kiểu trả về là void và ném ra ngoại lệ DataAccessException trong gói com.example.dao:
+@Pointcut ("execution (public void com.example.dao.*.*(..) throws org.springframework.dao.DataAccessException)") 
+public void allVoidMethodsWithDataAccessException() {
+    // to do 
+}
