@@ -1440,3 +1440,471 @@ public void saveStudent Pointcut () {
 public void allVoidMethodsWithDataAccessException() {
     // to do 
 }
+
+47. Dùng JSP thay cho thymeleaf
+<dependency>
+    <groupId>org.apache.tomcat.embed</groupId>
+    <artifactId>tomcat-embed-jasper</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>jakarta.servlet.jsp.jstl</groupId>
+    <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.glassfish.web</groupId>
+    <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+</dependency>
+
+- Tk đầu tiên là trình biên dịch jsp
+- Tk thứ 2 jstl(jsp standard tag Library) là mở rộng của jsp 
+- resources trên lưu cấu hình resources dưới lưu website
+
+48. Nhắc lại về mối quan hệ trong entity
+- Sửa lỗi không tạo được table order do trùng từ khoá order (sắp xếp trong mysql) ta dùng :
+@Entity
+@Table(name = "`order`")
+ hoặc dùng order có s là xong @Table(name = "orders")
+
+- Với quan hệ 2 chiều (Bi-directional) , cần tuân theo quy tắc :    
++ Thằng nắm FK- khoá ngoại là ownerSide ko có mappedBy
++ Thằng còn lại là invertSide, invertSide cần có mappedBy
++ Thường thì thằng cầm ManyToOne là ownerSide , OneToMany là invertSide cầm mappedBy
++ Khi dùng ManyTo thì nó tự động tạo 1 table trung gian chứa khoá 2 bảng, do đó muốn nó không tạo thì dùng @JoinColumn ở ownerSide
++ Những thằng List nó không hiển thị trong table mà chỉ trong JPA, nên thằng có khoá ngoại là thằng không chứa List
+
+VD: 
+Mối quan hệ N-1 users và roles Phân tích :
++ 1 user có 1 role, 1 role có nhiều user 
++ table users chứa role_id (khoá ngoại ) nên users là ownerSide -> thằng còn lại roles cầm mappedBy
+- Trong User (ownerSide)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+- Trong Role (invertSide)
+    @OneToMany(mappedBy = "role")
+    private List<User> users;
+
+Mối quan hệ 1-N giữa User và role :
++ 1 user có nhiều order (đơn hàng), nhiều order có 1 user 
++ Order chứa khoá ngoại do User chứa nhiều order(Kiểu List) không hiển thị trong table(nếu hiển thị sẽ vi phạm 1NF ) , order chứa khoá 
+ngoại nên là ownerSide -> chứa JointColumn, User là invertSide -> chứa mappedBy
+- Trong Order 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+- Trong User 
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
+
+
+- Khi dùng ManyToMany thì cả 2 đều là ownerSide, thay vì dùng JoinColumn như OneToMany thì ta dùng JoinTable,chọn 1 thằng đóng vai
+ownerSide thằng còn lại đóng vai invertSide, ví dụ bên dưới có thể làm ngược lại .
++ Trong Tutorial 
+@Table(name = "tutorials")
+public class Tutorial{ 
+@ManyToMany(fetch = FetchType.LAZY,
+      cascade = {
+          CascadeType.PERSIST,
+          CascadeType.MERGE
+      })
+  @JoinTable(name = "tutorial_tags",
+        joinColumns = { @JoinColumn(name = "tutorial_id") },
+        inverseJoinColumns = { @JoinColumn(name = "tag_id") })
+  private Set<Tag> tags = new HashSet<>();
+}
+
++ Trong Tag 
+@Entity
+@Table(name = "tags")
+public class Tag {
+@ManyToMany(fetch = FetchType.LAZY,
+      cascade = {
+          CascadeType.PERSIST,
+          CascadeType.MERGE
+      },
+      mappedBy = "tags")
+  @JsonIgnore
+  private Set<Tutorial> tutorials = new HashSet<>();
+}
+
+- Thực tế bảng trung gian giữa 2 entity chỉ chứa 2 khoá không đủ yêu cầu, do đó trên trường lớp đã học cũng như trong thực tế ta cần phân tích từ
+quan hệ nhiều-nhiều thành quan hệ 1-nhiều, chuẩn 3NF
+- Ví dụ có bảng Order và Product, N-N ta tạo thêm 1 bảng OrderDetail chuyển thành Order 1-N OrderDetail, OrderDetail N-1 Product
++ Trong Order
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails;
+
++ Trong OrderDetail
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product productId;
+
++ Trong Product 
+Không cần viết thêm, dùng quan hệ Unidirectional , ta chỉ cần biết 1 Product có trong nhiều OrderDetail là được
+
+
+- Mối quan hệ OneToOne ; cũng giống ManyToMany, chọn 1 thằng làm ownerSide 1 thằng làm invertSide;
+ownerSide cầm joinColumn còn invertSide cầm mappedBy
+- Trong OneToOne, ví dụ 1 table Post và 1 table PostDetail, ta sẽ để cho thằng PostDetail lấy khoá chính của Post làm khoá chính
+VD trong PostDetail dùng thêm annotation @MapsId , và không cần dùng mappedBy
+@Entity (name = "PostDetails") 
+@Table(name = "post_details") 
+public class PostDetails {
+    @Id
+    private Long id;
+
+    @Column(name = "created_on") 
+    private Date createdon;
+
+    @Column(name = "created_by") 
+    private String createdBy;
+
+    @OneToOne (fetch = FetchType.LAZY)
+    @MapsId
+    private Post post;
+
+    public PostDetails() {}
+
+    public PostDetails (String createdBy) { 
+        createdon = new Date();
+        this.createdBy = createdBy;
+    }
+
+    //Getters and setters omitted for brevity
+
+}
+
+49. Xử lý gửi file trong javaSpring
++ VD Kiểu dữ liệu User, trong User có Kiểu ROle Unidirectional thì khi lưu form ta có thể để path="role.name" khi đó nó chọc vào name của role trong user
+- Khi có upload file đi kèm thì trong các thuộc tính của form chính cần có nctype="multipart/form-data"
+- Kiểu user khi truyền vào để khởi tạo không có kiểu file nên không dùng được path đặc hữu của jsp, ta thay thế bằng name="hoidanitFile",
+khi đó từ controller ta dùng @RequestParam("hoidanitFile") MultipartFile file để lấy ra file 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    $(document).ready(() => {
+        const avatarFile = $("#avatarFile");
+        avatarFile.change(function (e) {
+            const imgURL = URL.createObjectURL(e.target.files[0]);
+            $("#avatarPreview").attr("src", imgURL);
+            $("#avatarPreview").css({ "display": "block" });
+        });
+    });
+</script>
+
+<form:form method="post" action="/admin/user/create"
+    modelAttribute="newUser" class="row" enctype="multipart/form-data">
+    <div class="mb-3 col-12 col-md-6">
+        <label class="form-label">Email:</label>
+        <form:input type="email" class="form-control" path="email" />
+    </div>
+    <div class="mb-3 col-12 col-md-6">
+        <label class="form-label">Role:</label>
+        <form:select class="form-select" path="role.name">
+        <form:option value="ADMIN">ADMIN</form:option>
+        <form:option value="USER">USER</form:option>
+        </form:select>
+    </div>
+        <div class="mb-3 col-12 col-md-6">
+        <label for="avatarFile" class="form-label">Avatar:</label>
+        <input class="form-control" type="file" id="avatarFile"
+            accept=".png, .jpg, .jpeg" name="hoidanitFile" />
+    </div>
+    <div class="col-12 mb-3">
+        <img style="max-height: 250px; display: none;" alt="avatar preview"
+            id="avatarPreview" />
+    </div>
+    <div class="col-12 mb-5">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+</form:form>
+
+@PostMapping(value = "/admin/user/create")
+public String createUserPage(Model model,
+        @ModelAttribute("newUser") User hoidanit,
+        @RequestParam("hoidanitFile") MultipartFile file) {
+
+    try {
+        byte[] bytes = file.getBytes();
+        String rootPath = this.servletContext.getRealPath("/resources/images");
+
+        File dir = new File(rootPath + File.separator + "avatar");
+        if (!dir.exists())
+            dir.mkdirs();
+
+        // Create the file on server
+        File serverFile = new File(dir.getAbsolutePath() + File.separator +
+                +System.currentTimeMillis() + "-" + file.getOriginalFilename());
+
+        BufferedOutputStream stream = new BufferedOutputStream(
+                new FileOutputStream(serverFile));
+        stream.write(bytes);
+        stream.close();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    // this.userService.handleSaveUser(hoidanit);
+    return "redirect:/admin/user";
+}
+
+- Upload nhiều file : thêm multiple vào phần thẻ input file , requestParam ở controller thì @RequestParam("hoidanitFile") MultipartFile[] file
+sau đó dùng vòng lặp xử lý từng file như thường lệ 
+Chi tiết vào xem code 
+
+50. Các hình thức mã hóa Data (Encoding, Hashing, Encryption)
+- Encoding/Decoding không dùng để bảo mật data mà thường dùng để nén dữ liệu: Base64,mp3(audio),mp4(video) 
+- Hashing chỉ mã hoá mà không giải mã ngược lại được. Ứng dụng trong lưu mật khẩu:
+Ta chỉ lưu mã băm của mật khẩu vào database khi đó người quản trị viên có quyền dù truy xuất database cũng thể xem được mật khẩu của bạn,
+khi đăng nhập máy sẽ lại băm mật khẩu của bạn lần nữa và đối chiếu với kết quả đã lưu trong database 
+- Encryption thường dùng để trao đổi dữ liệu: Thuật toán RSA 
+
+51. Validate dữ liệu 
+- Validate dữ liệu có thể ở frontEnd hoặc backEnd , tuy nhiên frontEnd có thể bị hack, nên làm bắt buộc ở backEnd còn frontEnd thì tuỳ 
+- JavaSpring hỗ trợ 2 thư viện validate :
++ Jakarta.validation : 
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
+
++ Hibernate Validator : 
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>8.0.1.Final</version>
+</dependency>
+
+52. DTO Mapper 
+- Ấn Ctrl + T để tìm class trong thư viện 
+Dùng thư viện mapstruct.org
+Mapper biến đổi các object , là design parten
+
+53. CSRF 
+- Cần thêm token vào from để chống CSRF 
+- JSP cần thêm 
++ 2 input cần name là username và password 
++ <input type="hidden"
+	name="${_csrf.parameterName}"
+	value="${_csrf.token}"/> 
+trong form
+- Thymeleaf mặc định có rồi nên không cần
+- Hiện khi đăng nhâp và chưa đăng nhập khác nhau
+
+54. Session và remeberme để lưu đăng nhập
+- Công cụ sẵn có remeberme là cái nút tick ở phần đăng nhập tick vào để lần sau không cần phải đăng nhập lại nữa mà vào luôn
+Cần thêm input ở file login.jsp(optinal) , trong cấu hình web thì thêm vào .rememberme, @bean rememberme
+- Công cụ cài thêm(nên dùng) session cần dùng thư viện spring session, biến session có sẵn và tự động cấu hình trong spring ta dùng thư viện để can thiệp vào biến session
+    <dependency>
+        <groupId>org.springframework.session</groupId>
+        <artifactId>spring-session-jdbc</artifactId>
+    </dependency>
+vì đang dùng jdbc nên là session-jdbc
+
+- Khi cấu hình remeberme và session thì remeberme sẽ cấu hình lại thời gian hết hạn của session,
+remeberme mặc định là 30 ngày thì dù session có 30s thì nó cũng sẽ thành 30 ngày
+- Hiển thị thông tin người dùng sau khi đăng nhập : 
++ Hiển thị bằng session scope jsp 
++ Gán giá trị session scope từ dưới database 
++ Lấy username đăng nhập vào từ securityContext làm điểm mồi (authentication.getName())
+
+- Target = blak thì khi ấn vào nó sẽ mở ra tab mới
+<a href="abc.com" target="_blank" > ẤN vào đây </a>
+- Trong form đặt name thì dùng @RequestParam để lấy
+
+55. Phân trang Pagination 
+- Câu lệnh LIMIT OFFSET trong sql 
+VD :
+LIMIT 5; Lấy 5 phần tử từ trên xuống dưới 
+OFFSET 3; Bỏ qua 3 phần tử ở đầu
+LIMIT 5 OFFSET 3 : Lấy phần tử 4,5,6,7,8 Bỏ phần tử 1,2,3 ở đầu
+
+- Query String : Là phần dữ liệu gửi thêm của người dùng sau dấu ? trên url 
+www.abc.com/search?q=JohnDoe&p=18
+
+- Dùng giao diện Pagination của bootstrap
+- Spring có interface PagingAndSortingRepository dùng để phân trang, tuy nhiên ta sẽ không dùng mà dùng JpaRepository do nó đã kế thừa và phát triển
+tinh tuý của PagingAndSortingRepository ở phiên bản mới
+
+- public Page findAll(Pageable pageable)  
+- Nếu dùng RestFull API thì chỉ cần truyền lên page và limit là nó tự hiểu
+
+- git stash : Lệnh git để lưu các thay đổi code vào bộ nhớ local ( Chưa đẩy lên git )
+- git checkout [code] : Để quay về phiên bản code trước
+- git stash pop : Quay về bản git stash mới nhất 
+
+56. Filter dữ liệu với spring 
+- Cách truyền thống query method : 
++ Định nghĩa câu querry với SpringJPA 
++ Sử dụng Jpa Criteria  ( v2.0 ) 
++ Sử dụng thư viện bên thứ 3 querydsl 
+
+- Dùng Specification (v3.0) 
++ Khái niệm Predicate
+Predicate<Integer> greaterThanTen = (i) -> i > 10; 
+Predicate<Integer> lowerThanTwenty = (i) -> i < 20;  
+
+boolean result = greaterThanTen.and(lowerThanTwenty).test(15); 
+System.out.println(result); //true
+
+boolean result2 = greaterThanTen.and(lowerThanTwenty).negate().test(15); 
+System.out.println(result2); //false 
+
++ Khái niệm JPA Criteria MetaModel : Giúp tạo câu truy vấn không bị "HardCode" 
+    <dependency>
+        <groupId>org.hibernate.orm</groupId>
+        <artifactId>hibernate-jpamodelgen</artifactId>
+        <version>6.4.1.Final</version>
+        <scope>provided</scope>
+    </dependency>
+
++ Specification : Cách tạo câu điều kiện where(dynamic)
+Root: đại diện table muốn truy vấn, được dùng để truy cập entity và fields của nó
+CriteriaQuery: tạo ra cấu trúc tổng quan của query, dùng để modify the select, join, group by, order by, etc. (ít dùng)
+CriteriaBuilder sử dụng predicates, để build ra điều kiện của câu query
+
+- Cách dùng CriteriaBuilder
+- Từ khoá debugger
+
+
+
+
+
+
+
+
+
+
+Java Spring REST VỚI GRADLE-KOTLIN
+ Maven có năm 2000, gradle năm 2008
+
+
+57. @RequestBody
+@GetMapping("/user")
+public User create(@RequestBody User user) {
+    this.service.createUser(user);
+    return user;
+}
+
+// Do spring chỉ có hàm save nên nếu id=0 hoặc id=null thì nó sẽ tạo mới còn lại là update
+// Nếu không truyền id nên thì mặc định id=0
+- Vì sao chỉ cần dùng @RequestBody thì nó sẽ chuyển từ jason về kiểu User : Do dùng thư viện jackson
+
+58. @PathVariable
+@DeleteMapping("/user/{id}")
+public User delete(@PathVariable("id") long id) {
+    this.service.deleteUser(user);
+    return user;
+}
+
+@PutMapping("/user/{id}")
+public User update(@PathVariable("id") long id) {
+    this.service.updateUser(user);
+    return user;
+}
+
+// Nếu để long id thì nó sẽ tự convert từ string qua, nếu thất bại sẽ lỗi
+
+59. Tổng kết về restfulAPI 
+- GET : Được dùng để lấy thông tin, không truyền data ở body @RequestBody (Không nhận được jaw json) , có thể truyền thông tin ở url @PathVariable
+- POST : Truyền data lên server, @RequestBody 
+- PUT/PATCH : PUT là update cả trường dữ liệu(ghi đè cả trường dữ liệu), PATCH là update trường dữ liệu quy định sẵn 
+- DELETE : Xoá thông tin 
+
+- Không cần viết @RestMapping như trên mà Spring-Data-Rest đã tự động tạo endpoint(api) CRUD ứng với domain, có thể customize
+- Thực tế dùng @RestController kiểm soát 100% logic 
+
+- Để hệ thống phản hồi 1 cách đầy đủ nhất, lời phản hồi gồm : 
++ Thông tin body  : data , thông thường là json 
++ Thông tin header : VD muốn dùng cookie 
++ Thông tin status : mã phản hồi
+
+60.  Response Entity
+- Đối tượng response Entity
+Minh họa một vài cách dùng thông dụng:
+- Trả về mình status
+ResponseEntity.status(HttpStatus.Ok).body(null);
+- Trả về Status và headers:
+ResponseEntity.status(HttpStatus.Ok).headers(Instance_of_HttpHeaders).build();
+- Trả về Status, headers và body:
+ResponseEntity.status(HttpStatus.Ok).headers(Instance_of_HttpHeaders)
+.body(Instance_of_object_send_back_to_client);
+
+61. Giới thiệu về mã lỗi (status code ),(Mã lỗi nhưng không có nghĩa là mã luôn thất bại) 
+Informational responses (100 – 199)
+Successful responses (200 – 299)
+Redirection messages (300 – 399)
+Client error responses (400 – 499)
+Server error responses (500 – 599)
+
+- Mã lỗi ám chỉ request thành công:
+200 - request succeeded (hay dùng cho method GET/PUT/DELETE)
+201 - request created a resource (hay dùng cho method POST)
+204 - no content to return (dùng khi bạn muốn thông báo không có data ở phản hồi)
+202 - Accepted (the request has been accepted for processing, but the processing has
+not been completed): dùng khi bạn chạy job/background task và muốn gửi phản hồi cho
+client
+
+- Mã lỗi ám chỉ request thất bại (lỗi do client):
+400 - Bad request (lỗi exception, validate...)
+401 - Unauthorized (unauthenticated): bạn chưa đăng nhập, có nghĩa rằng bạn cần login
+thành công thì mới có quyền sử dụng endpoint (API)
+403 - Forbidden (unauthorized): bạn đã đăng nhập thành công, tuy nhiên, bạn không có
+quyền hạn (authorization) để thực hiện tác vụ này
+404 - Resource not found : lỗi huyền thoại cmnr :v
+405 - Method not supported : check cho đúng method khi sử dụng với endpoint
+415 - Media not supported: bạn cần truyền đúng định dạng format mà server/client
+mong muốn. Ví dụ, bạn không thể dùng JSON để gửi file lên
+server (cần dùng formData)
+
+- Mã lỗi ám chỉ request thất bại (lỗi do server):
+500 - Internal Server error: lỗi xảy ra bên trong Server, cần đọc logs để biết lỗi gì
+(exception, bugs...)
+503 - Service Unavailable : server ngỏm (không chạy) nên không có sẵn để sử dụng
+504 - Gateway Timeout : server (có thể) không ngỏm, cơ mà không phản hồi trong thời
+gian quy định (quá lâu để phản hồi)
+
+62. Throw Exception
+- Trong Java có 2 loại exception: checked và unchecked. 
+Tất cả các checked exception được kế thừa từ lớp Exception ngoại trừ lớp RuntimeException.
+Có kế thừa từ lớp RuntimeException là unchecked exception .
++ Đối với checked exception, việc kiểm tra được thực hiện ngay thời điểm compile time.VD: IOException, InterruptedException, XMLParseException.. 
++ Đối với unchecked exception, việc xác định có exception xảy ra hay không chỉ có thể thực hiện ở thời điểm runtime.VD:NullPointerException, IndexOutOfBoundsException, ClassCastException…
+
+Throw unchecked exception trong trường hợp chương trình bị sai về logic, không thể làm gì tiếp theo nếu gặp những lỗi đó còn những lỗi vẫn còn có thể handle được thì throw checked exception.
+
+- Custom Checked Exception
+public class IdInvalidException extends Exception { 
+    public IdInvalidException(String errorMessage) {
+        super(errorMessage);
+    }
+}
+
+- Custom Unchecked Exception
+public class IncorrectFileExtensionException extends RuntimeException {
+    public IncorrectFileExtensionException(String errorMessage, Throwable err) {
+        super(errorMessage, err);
+    }
+}
+
+- Cách ném ra ngoại lệ trong spring Dùng @ExceptionHandler, với custom Checked Exception
+// Lắng nghe cụ thể IdInvalidException
+@ExceptionHandler(value=IdInvalidException.class)
+public ResponseEntity<String> handleIdException(IdInvalidException idException) { 
+    return ResponseEntity.badRequest().body(idException.getMessage());
+}
+
+@DeleteMapping("/users/{id}")
+public ResponseEntity<String> deleteUser (@PathVariable("id") long id) throws IdInvalidException {
+    if (id >= 1500) {
+    throw new IdInvalidException (message: "Id khong lon hon 1500");
+    }
+
+    return ResponseEntity.ok().("Xoa thanh cong ")
+}

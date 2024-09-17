@@ -14,3 +14,39 @@
 
 # Ignore Spring Boot generated files
 spring-boot-starter-*.jar
+
+# Ignore project dependencies
+/lib/
+
+# Ignore Node.js modules
+/node_modules/
+
+# Ignore Python virtual environment
+/venv/
+
+# Ignore Visual Studio Code workspace files
+.vscode/
+
+# Ignore Android build directory
+/build/
+
+# Ignore Xcode project files
+*.xcodeproj/
+
+# Ignore compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Ignore log files
+*.log
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.swp
+
+
+# Bỏ qua thư mục HoiDanIT
+HoiDanIT/
